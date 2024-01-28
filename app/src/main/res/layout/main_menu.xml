@@ -17,7 +17,6 @@
             android:layout_gravity="start"
             android:padding="@dimen/panel_header_padding"
             android:text="@string/app_name"
-            android:textAppearance="YS Display"
             android:textColor="@color/yp_white"
             android:textSize="@dimen/text_size_app_name" />
 
@@ -39,10 +38,10 @@
             android:text="@string/search"
             android:textColor="@color/yp_black"
             android:textSize="@dimen/text_size_app_name"
-            app:icon="@drawable/search"
+            app:icon="@drawable/ic_search"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
-            app:iconTint="#1A1B22"
+            app:iconTint="@color/yp_black"
             />
 
         <Button
@@ -54,7 +53,7 @@
             android:text="@string/media_library"
             android:textColor="@color/yp_black"
             android:textSize="@dimen/text_size_app_name"
-            app:icon="@drawable/media"
+            app:icon="@drawable/ic_media"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconTint="@color/yp_black"
@@ -69,7 +68,7 @@
             android:text="@string/settings"
             android:textColor="@color/yp_black"
             android:textSize="@dimen/text_size_app_name"
-            app:icon="@drawable/settings"
+            app:icon="@drawable/ic_settings"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconTint="@color/yp_black"
