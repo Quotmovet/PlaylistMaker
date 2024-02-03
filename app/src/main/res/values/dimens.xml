@@ -3,13 +3,9 @@
 
     -- Header --
     <dimen name="panel_header_padding">4dp</dimen>
-    <dimen name="text_size_app_name">26sp</dimen>
 
     -- Общие настройки компонентов --
     <dimen name="primary_components_text_size">19sp</dimen>
-
-    -- Кнопки главного меню --
-    <dimen name="main_menu_button_width">328dp</dimen>
-    <dimen name="main_menu_button_height">220dp</dimen>
+    <dimen name="text_size_app_name">26sp</dimen>
 
 </resources>
