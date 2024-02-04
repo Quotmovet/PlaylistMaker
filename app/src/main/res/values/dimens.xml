@@ -4,8 +4,15 @@
     -- Header --
     <dimen name="panel_header_padding">4dp</dimen>
 
-    -- Общие настройки компонентов --
+    -- Общие настройки шрифтов --
     <dimen name="primary_components_text_size">19sp</dimen>
     <dimen name="text_size_app_name">26sp</dimen>
+
+    -- Иконки --
+    <dimen name="primary_height_icons">24dp</dimen>
+    <dimen name="primary_width_icons">24dp</dimen>
+
+    -- Высота блоков в настройках --
+    <dimen name="primary_height_settings">61dp</dimen>
 
 </resources>
