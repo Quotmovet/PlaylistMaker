@@ -49,6 +49,7 @@
             android:text="@string/share_app" />
 
         <ImageButton
+            android:id="@+id/share"
             style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/share"
@@ -66,6 +67,7 @@
             android:text="@string/write_support" />
 
         <ImageButton
+            android:id="@+id/group"
             style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/group"
@@ -83,6 +85,7 @@
             android:text="@string/terms_of_use" />
 
         <ImageButton
+            android:id="@+id/arrow"
             style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/arrow"
