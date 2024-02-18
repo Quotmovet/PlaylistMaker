@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/yp_white"
-    android:orientation="vertical"
-    android:padding="20dp">
+    style="@style/ActivityLinearLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,27 +11,14 @@
 
         <ImageButton
             android:id="@+id/ic_arrow_back"
-            android:layout_width="@dimen/primary_width_icons"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/yp_white"
-            android:importantForAccessibility="no"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:src="@drawable/ic_arrow_back"
-            tools:ignore="TouchTargetSizeCheck" />
+            style="@style/ButtonStyleBack"
+            tools:ignore="TouchTargetSizeCheck"
+            android:importantForAccessibility="no" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:paddingStart="12dp"
-            android:paddingEnd="86dp"
-            android:paddingTop="8dp"
-            android:text="@string/settings"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/text_size_app_name" />
+            style="@style/TextStyleOfNavigationInHeader"
+            android:text="@string/settings"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -46,21 +29,13 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="@string/dark_theme"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/primary_components_text_size" />
+            style="@style/TextStyleOfMenuItems"
+            android:text="@string/dark_theme" />
 
         <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/primary_height_icons"
-            android:layout_gravity="center"
-            android:checked="false"
-            android:gravity="end"
-            android:minWidth="48dp" />
+            style="@style/SwitchStyle"
+            android:checked="true"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,19 +45,11 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="@string/share_app"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/primary_components_text_size" />
+            style="@style/TextStyleOfMenuItems"
+            android:text="@string/share_app" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/primary_height_icons"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/yp_white"
+            style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/share"
             tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
@@ -95,19 +62,11 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="@string/write_support"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/primary_components_text_size" />
+            style="@style/TextStyleOfMenuItems"
+            android:text="@string/write_support" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/primary_height_icons"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/yp_white"
+            style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/group"
             tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
@@ -120,19 +79,11 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="@string/terms_of_use"
-            android:textColor="@color/yp_black"
-            android:textSize="@dimen/primary_components_text_size" />
+            style="@style/TextStyleOfMenuItems"
+            android:text="@string/terms_of_use" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/primary_height_icons"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/yp_white"
+            style="@style/IconsStyle"
             android:importantForAccessibility="no"
             android:src="@drawable/arrow"
             tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />

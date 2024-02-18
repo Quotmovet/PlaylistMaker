@@ -17,6 +17,7 @@ class SettingsActivity : AppCompatActivity() {
         buttonBackToMain.setOnClickListener{
             val displayIntent = Intent(this, MainActivity::class.java)
             startActivity(displayIntent)
+            finish()
         }
     }
 }
