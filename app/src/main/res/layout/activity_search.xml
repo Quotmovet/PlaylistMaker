@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ActivityLinearLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:orientation="horizontal"
         tools:ignore="UselessParent">
 
@@ -18,6 +19,24 @@
         <TextView
             style="@style/TextStyleOfNavigationInHeader"
             android:text="@string/search" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        style="@style/SearchLayoutStyle"
+        tools:context=".SearchActivity">
+
+        <EditText
+            android:id="@+id/input_search"
+            style="@style/SearchLine"
+            tools:ignore="Autofill,LabelFor" />
+
+        <ImageButton
+            android:id="@+id/clear_button"
+            style="@style/ClearButton"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 </LinearLayout>

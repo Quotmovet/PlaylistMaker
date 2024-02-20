@@ -50,13 +50,12 @@ class SettingsActivity : AppCompatActivity() {
                 putExtra(Intent.EXTRA_TEXT, emailBody)
             }
 
-            if (emailIntent.resolveActivity(packageManager) != null) {
-                startActivity(emailIntent)
-            }
+            startActivity(emailIntent)
         }
 
         // Открыть пользовательское соглашение
         val buttonArrowInTermOfUse = findViewById<ImageButton>(R.id.arrow)
+
         buttonArrowInTermOfUse.setOnClickListener{
             val linkOfTerms = "https://yandex.ru/legal/practicum_offer/"
             val openTerms = Intent(Intent.ACTION_VIEW, Uri.parse(linkOfTerms))

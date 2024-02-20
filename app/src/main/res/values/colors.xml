@@ -6,4 +6,5 @@
     <color name="yp_blue_light">#9FBBF3</color>
     <color name="yp_gray">#AEAFB4</color>
     <color name="yp_gray_light">#E6E8EB</color>
+    <color name="yp_gray_dark">#99A2AD</color>
 </resources>
