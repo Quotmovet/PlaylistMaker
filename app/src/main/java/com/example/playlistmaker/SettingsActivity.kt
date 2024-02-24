@@ -11,6 +11,9 @@ class SettingsActivity : AppCompatActivity() {
     private val message by lazy { resources.getString(R.string.share_app) }
     private val emailSubject by lazy { resources.getString(R.string.emailSubject) }
     private val emailBody by lazy { resources.getString(R.string.emailBody) }
+    private val linkOnCourse by lazy { resources.getString(R.string.linkOnCourse) }
+    private val linkOfTerms by lazy { resources.getString(R.string.linkOfTerms) }
+    private val email by lazy { resources.getString(R.string.email) }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +33,8 @@ class SettingsActivity : AppCompatActivity() {
         val buttonShareInApp = findViewById<ImageButton>(R.id.share)
 
         buttonShareInApp.setOnClickListener{
-            val linkOnCourse = "https://practicum.yandex.ru/"
             val shareIntent = Intent()
-            shareIntent.action = Intent.ACTION_SENDTO
+            shareIntent.action = Intent.ACTION_SEND
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, linkOnCourse)
 
@@ -45,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
         buttonGroupSupport.setOnClickListener{
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, arrayOf("student_email@domain.com"))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
                 putExtra(Intent.EXTRA_SUBJECT, emailSubject)
                 putExtra(Intent.EXTRA_TEXT, emailBody)
             }
@@ -57,7 +59,6 @@ class SettingsActivity : AppCompatActivity() {
         val buttonArrowInTermOfUse = findViewById<ImageButton>(R.id.arrow)
 
         buttonArrowInTermOfUse.setOnClickListener{
-            val linkOfTerms = "https://yandex.ru/legal/practicum_offer/"
             val openTerms = Intent(Intent.ACTION_VIEW, Uri.parse(linkOfTerms))
 
             startActivity(openTerms)
