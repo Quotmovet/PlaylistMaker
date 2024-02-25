@@ -8,7 +8,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/yp_blue</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:padding">20dp</item>
     </style>
 
     <style name="ActivityLinearLayout">
@@ -16,7 +15,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/yp_white</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:padding">20dp</item>
     </style>
 
     <!-- Стили экрана activity_main -->
@@ -35,65 +33,57 @@
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:backgroundTint">@color/yp_white</item>
         <item name="android:textColor">@color/yp_black</item>
-        <item name="android:textSize">@dimen/text_size_app_name</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
         <item name="android:textAllCaps">false</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">8dp</item>
-        <item name="textAllCaps">@color/yp_black</item>
+        <item name="iconSize">19dp</item>
         <item name="iconTint">@color/yp_black</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
 
     <!-- Стили текста и кнопки назад во всех headers -->
 
-    <style name="TextStyleOfNavigationInHeader">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">2</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">86dp</item>
-        <item name="android:textColor">@color/yp_black</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="android:textSize">@dimen/text_size_app_name</item>
+    <style name="NavigationInHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/yp_white</item>
+        <item name="titleTextAppearance">@style/AppToolbarText</item>
+        <item name="navigationIcon">@drawable/arrow_back</item>
     </style>
 
-    <style name="ButtonStyleBack" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_width">@dimen/primary_width_icons</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:backgroundTint">@color/yp_white</item>
-        <item name="android:layout_marginRight">12dp</item>
-        <item name="android:src">@drawable/arrow_back</item>
+    <style name="AppToolbarText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
     </style>
 
     <!-- Стили экрана activity_settings -->
 
-    <style name="TextStyleOfMenuItems">
-        <item name="android:layout_width">0dp</item>
+    <style name="TextStyleOfActivitySettings">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">2</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/yp_black</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:textColor">@color/yp_black</item>
         <item name="android:textSize">@dimen/primary_components_text_size</item>
     </style>
 
     <style name="SwitchStyle">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+        <item name="android:thumbTintMode">screen</item>
+        <item name="thumbTint">@color/yp_gray</item>
         <item name="android:thumb">@drawable/thumb</item>
-        <item name="android:thumbTint">@color/yp_gray</item>
-        <item name="android:trackTint">@color/yp_gray</item>
-    </style>
-
-    <style name="IconsStyle">
-        <item name="android:layout_width">@dimen/primary_width_icons</item>
-        <item name="android:layout_height">@dimen/primary_height_icons</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:backgroundTint">@color/yp_white</item>
+        <item name="trackTint">@color/yp_gray_light</item>
     </style>
 
     <!-- Стили экрана activity_search -->
@@ -101,6 +91,8 @@
     <style name="SearchLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:orientation">horizontal</item>
@@ -121,6 +113,7 @@
         <item name="android:inputType">text</item>
         <item name="android:textColor">@color/yp_black</item>
         <item name="android:textColorHint">@color/yp_gray</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@null</item>

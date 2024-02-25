@@ -4,23 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ActivityLinearLayout">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent">
 
-        <ImageButton
-            android:id="@+id/ic_arrow_back"
-            style="@style/ButtonStyleBack"
-            tools:ignore="TouchTargetSizeCheck"
-            android:importantForAccessibility="no" />
-
-        <TextView
-            style="@style/TextStyleOfNavigationInHeader"
-            android:text="@string/search" />
-
-    </LinearLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/main_back_button"
+        style="@style/NavigationInHeader"
+        app:title="@string/search" />
 
     <LinearLayout
         android:id="@+id/linear_layout"

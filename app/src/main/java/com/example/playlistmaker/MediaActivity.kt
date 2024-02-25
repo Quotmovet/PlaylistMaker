@@ -4,17 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import com.google.android.material.appbar.MaterialToolbar
 
 class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val buttonBackToMain = findViewById<ImageButton>(R.id.ic_arrow_back)
+        val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
 
-        buttonBackToMain.setOnClickListener{
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+        // вернуться назад
+        toolbar.setNavigationOnClickListener {
             finish()
         }
     }

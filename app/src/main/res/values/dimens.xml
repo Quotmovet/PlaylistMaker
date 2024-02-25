@@ -5,8 +5,8 @@
     <dimen name="panel_header_padding">4dp</dimen>
 
     -- Общие настройки шрифтов --
-    <dimen name="primary_components_text_size">19sp</dimen>
-    <dimen name="text_size_app_name">26sp</dimen>
+    <dimen name="primary_components_text_size">16sp</dimen>
+    <dimen name="middle_text_size">22sp</dimen>
 
     -- Иконки --
     <dimen name="primary_height_icons">24dp</dimen>

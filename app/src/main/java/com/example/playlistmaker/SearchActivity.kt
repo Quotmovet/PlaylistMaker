@@ -10,6 +10,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
 
@@ -20,14 +21,12 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val buttonBackToMain = findViewById<ImageButton>(R.id.ic_arrow_back)
+        val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
         searchLine = findViewById(R.id.input_search)
         val clearButton = findViewById<ImageButton>(R.id.clear_button)
 
         // вернуться назад
-        buttonBackToMain.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+        toolbar.setNavigationOnClickListener {
             finish()
         }
 

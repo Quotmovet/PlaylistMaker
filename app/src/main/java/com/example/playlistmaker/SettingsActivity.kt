@@ -6,6 +6,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
     private val message by lazy { resources.getString(R.string.share_app) }
@@ -21,16 +23,14 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         // Возврат назад
-        val buttonBackToMain = findViewById<ImageButton>(R.id.ic_arrow_back)
+        val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
 
-        buttonBackToMain.setOnClickListener{
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+        toolbar.setNavigationOnClickListener {
             finish()
         }
 
         // Поделиться
-        val buttonShareInApp = findViewById<ImageButton>(R.id.share)
+        val buttonShareInApp: MaterialTextView = findViewById(R.id.share)
 
         buttonShareInApp.setOnClickListener{
             val shareIntent = Intent()
@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Написать в тех. поддержку
-        val buttonGroupSupport = findViewById<ImageButton>(R.id.group)
+        val buttonGroupSupport: MaterialTextView = findViewById(R.id.group)
 
         buttonGroupSupport.setOnClickListener{
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
@@ -56,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Открыть пользовательское соглашение
-        val buttonArrowInTermOfUse = findViewById<ImageButton>(R.id.arrow)
+        val buttonArrowInTermOfUse: MaterialTextView = findViewById(R.id.arrow)
 
         buttonArrowInTermOfUse.setOnClickListener{
             val openTerms = Intent(Intent.ACTION_VIEW, Uri.parse(linkOfTerms))
