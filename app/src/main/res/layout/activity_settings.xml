@@ -1,40 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ActivityLinearLayout">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/main_back_button"
         style="@style/NavigationInHeader"
-        app:title="@string/settings" />
+        app:title="@string/settings"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switcher"
         style="@style/SwitchStyle"
         android:layout_marginTop="24dp"
-        android:text="@string/dark_theme"
-        />
+        android:text="@string/dark_theme"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/share"
         style="@style/TextStyleOfActivitySettings"
         android:drawableEnd="@drawable/share"
-        android:text="@string/share_app"
-         />
+        android:text="@string/share_app"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/group"
         style="@style/TextStyleOfActivitySettings"
         android:drawableEnd="@drawable/group"
-        android:text="@string/write_support"
-        />
+        android:text="@string/write_support"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/arrow"
         style="@style/TextStyleOfActivitySettings"
         android:drawableEnd="@drawable/arrow"
-        android:text="@string/terms_of_use"
-        />
+        android:text="@string/terms_of_use"/>
 
 </LinearLayout>

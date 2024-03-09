@@ -13,4 +13,6 @@
     <string name="linkOnCourse">https://practicum.yandex.ru/</string>
     <string name="linkOfTerms">https://yandex.ru/legal/practicum_offer/</string>
     <string name="email">student_email@domain.com</string>
+    <string name="noReply">No Reply</string>
+    <string name="error">Error</string>
 </resources>

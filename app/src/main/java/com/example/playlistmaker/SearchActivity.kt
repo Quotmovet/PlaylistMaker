@@ -1,7 +1,6 @@
 package com.example.playlistmaker
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -10,12 +9,18 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
 
     private var countValue: String = AMOUNT_DEF
     private lateinit var searchLine: EditText
+    private lateinit var clearButton:ImageButton
+
+    private lateinit var recyclerTracks: RecyclerView
+    private val originalTracksList = DataOfTracks().tracks.toMutableList()
+    private val filteredTracksList = mutableListOf<Track>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +28,9 @@ class SearchActivity : AppCompatActivity() {
 
         val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
         searchLine = findViewById(R.id.input_search)
-        val clearButton = findViewById<ImageButton>(R.id.clear_button)
+        clearButton = findViewById(R.id.clear_button)
+
+        recyclerTracks = findViewById(R.id.recyclerView)
 
         // вернуться назад
         toolbar.setNavigationOnClickListener {
@@ -48,7 +55,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 countValue = s.toString()
-                clearButton.visibility = clearButtonVisibility(s)
+                filterOfTracks(s.toString())
+                hideListIfSearchEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -57,8 +65,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchLine.addTextChangedListener(simpleTextWatcher)
-
-        }
+    }
 
     // сохранение значения поля поиска
     override fun onSaveInstanceState(outState: Bundle) {
@@ -79,6 +86,28 @@ class SearchActivity : AppCompatActivity() {
             View.GONE
         } else {
             View.VISIBLE
+        }
+    }
+
+    // фильтрация поиска
+    private  fun filterOfTracks(query: String){
+        filteredTracksList.clear()
+        if(query.isEmpty()){
+            filteredTracksList.addAll(originalTracksList)
+        } else{
+            filteredTracksList.addAll(originalTracksList.filter { it.trackName.contains(query, ignoreCase = true) })
+        }
+
+        recyclerTracks.adapter = MusicListAdapter(filteredTracksList)
+        clearButton.visibility = clearButtonVisibility(query)
+    }
+
+    // убрать список
+    private fun hideListIfSearchEmpty() {
+        if (searchLine.text.toString().isEmpty()) {
+            recyclerTracks.visibility = View.GONE
+        } else {
+            recyclerTracks.visibility = View.VISIBLE
         }
     }
 

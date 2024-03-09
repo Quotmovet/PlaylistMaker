@@ -133,4 +133,34 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="MainStyleOfImage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">@color/yp_white</item>
+        <item name="android:backgroundTint">@color/yp_black</item>
+    </style>
+
+    <style name="TextInNameOfTracks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextUnderNameOfTracks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/little_text_size</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

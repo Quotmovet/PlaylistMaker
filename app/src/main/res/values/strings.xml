@@ -21,5 +21,8 @@
     <string name="linkOnCourse">https://practicum.yandex.ru/</string>
     <string name="linkOfTerms">https://yandex.ru/legal/practicum_offer/</string>
 
+    <!-- Ошибки-->
+    <string name="error">Ошибка</string>
+    <string name="noReply">Нет Ответа</string>
 
 </resources>
