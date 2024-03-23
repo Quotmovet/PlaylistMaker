@@ -1,9 +1,8 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.activites
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import com.example.playlistmaker.R
 import com.google.android.material.appbar.MaterialToolbar
 
 class MediaActivity : AppCompatActivity() {

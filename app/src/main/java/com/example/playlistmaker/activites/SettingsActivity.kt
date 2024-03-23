@@ -1,11 +1,11 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.activites
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import com.example.playlistmaker.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textview.MaterialTextView
 

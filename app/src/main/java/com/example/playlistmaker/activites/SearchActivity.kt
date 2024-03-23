@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.activites
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.activites.for_search.DataOfTracks
+import com.example.playlistmaker.activites.for_search.MusicListAdapter
+import com.example.playlistmaker.R
+import com.example.playlistmaker.activites.for_search.TrackDataClass
 import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
@@ -20,7 +24,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var recyclerTracks: RecyclerView
     private val originalTracksList = DataOfTracks().tracks.toMutableList()
-    private val filteredTracksList = mutableListOf<Track>()
+    private val filteredTracksList = mutableListOf<TrackDataClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
