@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ActivityLinearLayout">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/main_back_button"
+        style="@style/NavigationInHeader"
+        app:title="@string/search" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        style="@style/SearchLayoutStyle"
+        tools:context=".activites.SearchActivity">
+
+        <EditText
+            android:id="@+id/input_search"
+            style="@style/SearchLine"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            tools:ignore="Autofill,LabelFor" />
+
+        <ImageButton
+            android:id="@+id/clear_button"
+            style="@style/ClearButton"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/tracks_view_element"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/search_error_nothing_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="102dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            style="@style/search_error_nothing"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/nothingWasFound" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/search_error_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="102dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            style="@style/search_error_network"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/communicationProblems" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/uploadFailed"
+            android:layout_width="312dp"/>
+
+        <Button
+            style="@style/updateButton"
+            android:id="@+id/update_button" />
+    </LinearLayout>
+
+</LinearLayout>

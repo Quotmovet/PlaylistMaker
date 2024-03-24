@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Общие стили LinearLayout для экранов -->
+
+    <style name="MainActivityLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/yp_black</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ActivityLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/yp_black</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- Стили экрана activity_main -->
+
+    <style name="MessageTextStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="ButtonStyleInMenu" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:backgroundTint">@color/yp_white</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">8dp</item>
+        <item name="iconSize">19dp</item>
+        <item name="iconTint">@color/yp_black</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <!-- Стили текста и кнопки назад во всех headers -->
+
+    <style name="NavigationInHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/yp_black</item>
+        <item name="titleTextAppearance">@style/AppToolbarText</item>
+        <item name="navigationIcon">@drawable/arrow_back</item>
+        <item name="navigationIconTint">@color/yp_white</item>
+    </style>
+
+    <style name="AppToolbarText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
+    </style>
+
+    <!-- Стили экрана activity_settings -->
+
+    <style name="TextStyleOfActivitySettings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+        <item name="android:drawableTint">@color/yp_white</item>
+    </style>
+
+    <style name="SwitchStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+        <item name="android:thumbTintMode">screen</item>
+        <item name="thumbTint">@color/yp_blue</item>
+        <item name="android:thumb">@drawable/thumb</item>
+        <item name="trackTint">@color/yp_blue_light</item>
+    </style>
+
+    <!-- Стили экрана activity_search -->
+
+    <style name="SearchLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/search_box_background</item>
+        <item name="android:backgroundTint">@color/yp_white</item>
+    </style>
+
+    <style name="SearchLine">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:drawableStart">@drawable/search</item>
+        <item name="android:drawableTint">@color/yp_black</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:hint">@string/search</item>
+        <item name="android:maxLength">31</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+        <item name="android:textColorHint">@color/yp_black</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="ClearButton">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:backgroundTint">@color/yp_white</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:src">@drawable/close_icon</item>
+        <item name="android:tint">@color/yp_black</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="MainStyleOfImage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:tint">@color/yp_white</item>
+        <item name="android:backgroundTint">@color/yp_black</item>
+    </style>
+
+    <style name="TextInNameOfTracks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextUnderNameOfTracks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">@dimen/little_text_size</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="search_error_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="search_error_nothing">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:src">@drawable/error_nothing_dark_mode</item>
+    </style>
+
+    <style name="search_error_network">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:src">@drawable/error_network_dark_mode</item>
+    </style>
+
+    <style name="updateButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/s24</item>
+        <item name="android:backgroundTint">@color/yp_white</item>
+        <item name="cornerRadius">54dp</item>
+        <item name="android:text">@string/update</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+</resources>
