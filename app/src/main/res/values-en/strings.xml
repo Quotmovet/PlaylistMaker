@@ -15,4 +15,9 @@
     <string name="email">student_email@domain.com</string>
     <string name="noReply">No Reply</string>
     <string name="error">Error</string>
+    <string name="nothingWasFound">Nothing was found</string>
+    <string name="communicationProblems">Communication problems</string>
+    <string name="uploadFailed">Upload failed. Check your internet connection</string>
+    <string name="update">Update</string>
+    <string name="iTunesBaseUrl">https://itunes.apple.com</string>
 </resources>

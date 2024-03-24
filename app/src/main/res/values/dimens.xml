@@ -7,6 +7,7 @@
     -- Общие настройки шрифтов --
     <dimen name="primary_components_text_size">16sp</dimen>
     <dimen name="middle_text_size">22sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
     <dimen name="little_text_size">11sp</dimen>
 
     -- Иконки --
@@ -15,5 +16,9 @@
 
     -- Высота блоков в настройках --
     <dimen name="primary_height_settings">61dp</dimen>
+
+    -- Общие размеры --
+    <dimen name="s24">24dp</dimen>
+    <dimen name="s14">14dp</dimen>
 
 </resources>

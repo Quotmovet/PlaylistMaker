@@ -18,6 +18,8 @@
         <EditText
             android:id="@+id/input_search"
             style="@style/SearchLine"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             tools:ignore="Autofill,LabelFor" />
 
         <ImageButton
@@ -34,6 +36,50 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/tracks_view_element"/>
+        tools:listitem="@layout/tracks_view_element"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/search_error_nothing_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="102dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            style="@style/search_error_nothing"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/nothingWasFound" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/search_error_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="102dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            style="@style/search_error_network"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/communicationProblems" />
+
+        <TextView
+            style="@style/search_error_text"
+            android:text="@string/uploadFailed"
+            android:layout_width="312dp"/>
+
+        <Button
+            style="@style/updateButton"
+            android:id="@+id/update_button" />
+    </LinearLayout>
 
 </LinearLayout>
