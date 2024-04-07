@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ActivityLinearLayout">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/main_back_button"
         style="@style/NavigationInHeader"
@@ -30,14 +29,38 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/tracks_view_element"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/you_were_looking_for"
+            style="@style/search_error_text"
+            android:layout_height="52dp"
+            android:layout_marginTop="@dimen/s24"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/you_were_looking_for"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/tracks_view_element"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/clear_history_button"
+            style="@style/updateButton"
+            android:text="@string/clear_history"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/search_error_nothing_found"
@@ -81,5 +104,4 @@
             style="@style/updateButton"
             android:id="@+id/update_button" />
     </LinearLayout>
-
 </LinearLayout>

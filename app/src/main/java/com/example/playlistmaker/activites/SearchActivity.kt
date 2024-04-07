@@ -13,12 +13,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import api_itunes.ITunesAPI
 import api_itunes.SearchTrackResponse
 import com.example.playlistmaker.activites.for_search.MusicListAdapter
 import com.example.playlistmaker.R
+import com.example.playlistmaker.activites.for_search.HistoryListAdapter
+import com.example.playlistmaker.activites.for_search.SearchHistory
+import com.example.playlistmaker.activites.for_search.TrackClickListener
+import com.example.playlistmaker.activites.for_search.TrackDataClass
 import com.google.android.material.appbar.MaterialToolbar
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,6 +42,11 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchErrorNetwork: LinearLayout
 
     private lateinit var recyclerTracks: RecyclerView
+
+    private lateinit var youWereLookingFor: TextView
+    private lateinit var cleanHistoryButton: Button
+
+    private lateinit var searchHistory: SearchHistory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +71,17 @@ class SearchActivity : AppCompatActivity() {
 
         recyclerTracks = findViewById(R.id.recyclerView)
 
+        youWereLookingFor = findViewById(R.id.you_were_looking_for)
+        cleanHistoryButton = findViewById(R.id.clear_history_button)
+
+        val sharedPreferencesHistory = getSharedPreferences(HISTORY_OF_SEARCH_KEY, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPreferencesHistory)
+
+        // Отработка нажатий
+        val trackClickListener = object : TrackClickListener{
+            override fun onTrackClick(track: TrackDataClass) { }
+        }
+
         // Поиск трека с помощью iTunes
         fun searchTrackInItunes(){
             iTunesService.searchTrack(searchLine.text.toString()).enqueue(object : Callback<SearchTrackResponse>{
@@ -75,7 +96,9 @@ class SearchActivity : AppCompatActivity() {
                             recyclerTracks.visibility = View.VISIBLE
                             searchErrorNothingFound.visibility = View.GONE
                             searchErrorNetwork.visibility = View.GONE
-                            recyclerTracks.adapter = MusicListAdapter(response.body())
+                            youWereLookingFor.visibility = View.GONE
+                            cleanHistoryButton.visibility = View.GONE
+                            recyclerTracks.adapter = MusicListAdapter(response.body(), searchHistory, trackClickListener)
                         }
                     } else {
                         searchErrorNothingFound.visibility = View.VISIBLE
@@ -92,6 +115,20 @@ class SearchActivity : AppCompatActivity() {
             })
         }
 
+        // демонстрация истории поиска
+        fun showHistory() {
+            val isSearchLineEmpty = searchLine.text.isEmpty()
+            val isSearchHistoryEmpty = searchHistory.show().isEmpty()
+
+            youWereLookingFor.visibility = if (isSearchLineEmpty && !isSearchHistoryEmpty) View.VISIBLE else View.GONE
+            cleanHistoryButton.visibility = if (isSearchLineEmpty && !isSearchHistoryEmpty) View.VISIBLE else View.GONE
+            recyclerTracks.visibility = if (isSearchLineEmpty && !isSearchHistoryEmpty) View.VISIBLE else View.GONE
+
+            if (isSearchLineEmpty) {
+                recyclerTracks.adapter = HistoryListAdapter(searchHistory.show())
+            }
+        }
+
         // вернуться назад
         toolbar.setNavigationOnClickListener {
             finish()
@@ -106,11 +143,21 @@ class SearchActivity : AppCompatActivity() {
             searchErrorNothingFound.visibility = View.GONE
         }
 
+        // очистка истории поиска
+        cleanHistoryButton.setOnClickListener {
+            searchHistory.cleanHistory()
+            showHistory()
+        }
+
+        searchLine.setOnFocusChangeListener { _, _ ->
+            showHistory()
+        }
+
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(PRODUCT_AMOUNT, AMOUNT_DEF)
         }
 
-        // поиск !!!
+        // поиск
         recyclerTracks.layoutManager = LinearLayoutManager(this)
         searchLine.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -133,7 +180,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
-                hideListIfSearchEmpty()
+                countValue = s.toString()
+                showHistory()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -159,25 +207,13 @@ class SearchActivity : AppCompatActivity() {
 
     // видимость кнопки очистить поле ввода
     private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-    }
-
-    // убрать список
-    private fun hideListIfSearchEmpty() {
-        if (searchLine.text.toString().isEmpty()) {
-            recyclerTracks.visibility = View.GONE
-        } else {
-            recyclerTracks.visibility = View.VISIBLE
-        }
+        return if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 
     companion object {
-        const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
-        const val AMOUNT_DEF = ""
-        const val NULL_POINT = 0
+        private const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
+        private const val AMOUNT_DEF = ""
+        private const val NULL_POINT = 0
+        private const val HISTORY_OF_SEARCH_KEY = "history_of_search_key"
     }
 }

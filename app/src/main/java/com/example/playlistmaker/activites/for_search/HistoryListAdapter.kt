@@ -3,12 +3,9 @@ package com.example.playlistmaker.activites.for_search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import api_itunes.SearchTrackResponse
 import com.example.playlistmaker.R
 
-class MusicListAdapter(private val tracks: SearchTrackResponse?,
-                       private val searchHistory: SearchHistory,
-                       private val trackClickListener: TrackClickListener) :
+class HistoryListAdapter(private val tracksHistory: List<TrackDataClass>?) :
     RecyclerView.Adapter<MusicListViewHolder> () {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicListViewHolder {
@@ -17,15 +14,11 @@ class MusicListAdapter(private val tracks: SearchTrackResponse?,
     }
 
     override fun onBindViewHolder(holder: MusicListViewHolder, position: Int) {
-        holder.bind(tracks!!.results[position])
-
-        holder.itemView.setOnClickListener {
-            searchHistory.saveHistory(tracks.results[position])
-            trackClickListener.onTrackClick(tracks.results[position])
-        }
+        val track = tracksHistory!![position]
+        holder.bind(track)
     }
 
     override fun getItemCount(): Int {
-        return tracks!!.resultCount
+        return tracksHistory!!.count()
     }
 }

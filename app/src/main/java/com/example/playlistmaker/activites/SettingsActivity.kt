@@ -5,8 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.edit
+import com.example.playlistmaker.App
 import com.example.playlistmaker.R
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 
 class SettingsActivity : AppCompatActivity() {
@@ -22,9 +25,20 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        // Переключатель темы
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.switcher)
+        val themeSharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
+        themeSwitcher.isChecked = (application as App).darkTheme
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            themeSharedPreferences.edit{
+                putBoolean(SWITCH_THEME_KEY, checked)
+                apply()
+            }
+        }
+
         // Возврат назад
         val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
-
         toolbar.setNavigationOnClickListener {
             finish()
         }
@@ -63,5 +77,9 @@ class SettingsActivity : AppCompatActivity() {
 
             startActivity(openTerms)
         }
+    }
+    companion object{
+        private const val SHARED_PREFERENCES = "shared_preferences"
+        private const val SWITCH_THEME_KEY = "key_of_switch_theme"
     }
 }

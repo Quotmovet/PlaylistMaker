@@ -36,6 +36,7 @@
             <TextView
                 android:id="@+id/singerName"
                 style="@style/TextUnderNameOfTracks"
+                android:layout_weight="1"
                 tools:text="The Beatles"/>
 
             <ImageView

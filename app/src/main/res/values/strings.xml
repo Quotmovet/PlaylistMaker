@@ -12,6 +12,10 @@
     <string name="write_support">Написать в поддержку</string>
     <string name="terms_of_use">Пользовательское соглашение</string>
 
+    <!-- Экран: Поиск -->
+    <string name="you_were_looking_for">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
+
     <!-- Поделиться приложением (сообщения)-->
     <string name="email">student_email@domain.com</string>
     <string name="emailSubject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
