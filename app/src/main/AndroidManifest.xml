@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".activites.for_search.AudioplayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".activites.MediaActivity"
             android:exported="false" />
         <activity

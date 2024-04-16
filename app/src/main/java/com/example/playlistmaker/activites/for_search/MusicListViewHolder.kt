@@ -19,27 +19,27 @@ class MusicListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private val radius: Float = 2 * itemView.resources.displayMetrics.density
 
-    fun bind(trackDataClass: TrackDataClass) {
+    fun bind(track: TrackDataClass) {
 
         // Трек
-        if (trackDataClass.trackName.isEmpty()) {
+        if (track.trackName.isEmpty()) {
             trackName.setText(R.string.noReply)
         } else {
-            trackName.text = trackDataClass.trackName
+            trackName.text = track.trackName
         }
 
         // Исполнитель
-        if (trackDataClass.artistName.isEmpty()) {
+        if (track.artistName.isEmpty()) {
             singerName.setText(R.string.noReply)
         } else {
-            singerName.text = trackDataClass.artistName
+            singerName.text = track.artistName
         }
 
         // Длительность
-        trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackDataClass.trackTimeMillis)
+        trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
         // Изображение
-        val imageUrl = trackDataClass.artworkUrl1100
+        val imageUrl = track.artworkUrl1100
         Glide.with(itemView)
             .load(imageUrl)
             .placeholder(R.drawable.placeholder_of_track)

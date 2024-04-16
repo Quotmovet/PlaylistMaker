@@ -20,5 +20,6 @@
     -- Общие размеры --
     <dimen name="s24">24dp</dimen>
     <dimen name="s14">14dp</dimen>
+    <dimen name="s8">8dp</dimen>
 
 </resources>

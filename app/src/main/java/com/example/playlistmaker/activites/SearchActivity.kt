@@ -1,6 +1,7 @@
 package com.example.playlistmaker.activites
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -20,6 +21,7 @@ import api_itunes.ITunesAPI
 import api_itunes.SearchTrackResponse
 import com.example.playlistmaker.activites.for_search.MusicListAdapter
 import com.example.playlistmaker.R
+import com.example.playlistmaker.activites.for_search.AudioplayerActivity
 import com.example.playlistmaker.activites.for_search.HistoryListAdapter
 import com.example.playlistmaker.activites.for_search.SearchHistory
 import com.example.playlistmaker.activites.for_search.TrackClickListener
@@ -79,7 +81,11 @@ class SearchActivity : AppCompatActivity() {
 
         // Отработка нажатий
         val trackClickListener = object : TrackClickListener{
-            override fun onTrackClick(track: TrackDataClass) { }
+            override fun onTrackClick(track: TrackDataClass) {
+                val nextPageIntent = Intent(this@SearchActivity, AudioplayerActivity::class.java)
+                    .apply { putExtra(KEY_FOR_INTENT, track) }
+                startActivity(nextPageIntent)
+            }
         }
 
         // Поиск трека с помощью iTunes
@@ -125,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
             recyclerTracks.visibility = if (isSearchLineEmpty && !isSearchHistoryEmpty) View.VISIBLE else View.GONE
 
             if (isSearchLineEmpty) {
-                recyclerTracks.adapter = HistoryListAdapter(searchHistory.show())
+                recyclerTracks.adapter = HistoryListAdapter(searchHistory.show(), trackClickListener)
             }
         }
 
@@ -215,5 +221,6 @@ class SearchActivity : AppCompatActivity() {
         private const val AMOUNT_DEF = ""
         private const val NULL_POINT = 0
         private const val HISTORY_OF_SEARCH_KEY = "history_of_search_key"
+        private const val KEY_FOR_INTENT = "key_for_intent"
     }
 }

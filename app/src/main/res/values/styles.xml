@@ -198,4 +198,121 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:elevation">0dp</item>
     </style>
+
+    <!-- Стили экрана audioplayer_activity -->
+
+    <style name="guidline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="backButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="srcCompat">@drawable/arrow_back</item>
+    </style>
+
+    <style name="trackName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">start</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">Yesterday (Remastered 2009)</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/middle_text_size</item>
+    </style>
+
+    <style name="singerName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">start</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">The Beatles</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/primary_components_text_size</item>
+    </style>
+
+    <style name="playButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:src">@drawable/play</item>
+        <item name="android:background">@null</item>
+        <item name="android:color">@color/yp_black</item>
+    </style>
+
+    <style name="addButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:src">@drawable/add</item>
+    </style>
+
+    <style name="likeButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:src">@drawable/like</item>
+    </style>
+
+    <style name="actualTime">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="textBlock">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">start</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/yp_gray</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="textBlockData">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">end</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
 </resources>

@@ -12,6 +12,10 @@
     <string name="emailBody">Thanks to the developers and developers for the cool application!</string>
     <string name="linkOnCourse">https://practicum.yandex.ru/</string>
     <string name="linkOfTerms">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="duration">Duration</string>
+    <string name="album">Album</string>
+    <string name="year">Year</string>
+    <string name="genre">Genre</string>
     <string name="email">student_email@domain.com</string>
     <string name="noReply">No Reply</string>
     <string name="error">Error</string>
@@ -22,4 +26,5 @@
     <string name="iTunesBaseUrl">https://itunes.apple.com</string>
     <string name="you_were_looking_for">You were looking for</string>
     <string name="clear_history">Clear the history</string>
+    <string name="country">Country</string>
 </resources>

@@ -16,6 +16,13 @@
     <string name="you_were_looking_for">Вы искали</string>
     <string name="clear_history">Очистить историю</string>
 
+    <!-- Экран: Аудиоплеер -->
+    <string name="duration">Длительность</string>
+    <string name="album">Альбом</string>
+    <string name="year">Год</string>
+    <string name="genre">Жанр</string>
+    <string name="country">Страна</string>
+
     <!-- Поделиться приложением (сообщения)-->
     <string name="email">student_email@domain.com</string>
     <string name="emailSubject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
