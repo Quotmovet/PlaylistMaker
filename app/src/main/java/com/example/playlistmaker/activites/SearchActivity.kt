@@ -2,10 +2,8 @@ package com.example.playlistmaker.activites
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -15,17 +13,19 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import api_itunes.ITunesAPI
 import api_itunes.SearchTrackResponse
-import com.example.playlistmaker.activites.for_search.MusicListAdapter
 import com.example.playlistmaker.R
 import com.example.playlistmaker.activites.for_search.AudioplayerActivity
 import com.example.playlistmaker.activites.for_search.HistoryListAdapter
+import com.example.playlistmaker.activites.for_search.MusicListAdapter
 import com.example.playlistmaker.activites.for_search.SearchHistory
 import com.example.playlistmaker.activites.for_search.TrackClickListener
-import com.example.playlistmaker.activites.for_search.TrackDataClass
 import com.google.android.material.appbar.MaterialToolbar
 import retrofit2.Call
 import retrofit2.Callback
@@ -80,12 +80,10 @@ class SearchActivity : AppCompatActivity() {
         searchHistory = SearchHistory(sharedPreferencesHistory)
 
         // Отработка нажатий
-        val trackClickListener = object : TrackClickListener{
-            override fun onTrackClick(track: TrackDataClass) {
-                val nextPageIntent = Intent(this@SearchActivity, AudioplayerActivity::class.java)
-                    .apply { putExtra(KEY_FOR_INTENT, track) }
-                startActivity(nextPageIntent)
-            }
+        val trackClickListener = TrackClickListener { track ->
+            val nextPageIntent = Intent(this@SearchActivity, AudioplayerActivity ::class.java)
+                .apply { putExtra(KEY_FOR_INTENT, track) }
+            startActivity(nextPageIntent)
         }
 
         // Поиск трека с помощью iTunes
@@ -96,19 +94,19 @@ class SearchActivity : AppCompatActivity() {
                     response: Response<SearchTrackResponse> ) {
                     if (response.isSuccessful) {
                         if(response.body()?.resultCount == NULL_POINT) {
-                            searchErrorNothingFound.visibility = View.VISIBLE
-                            recyclerTracks.visibility = View.GONE
+                            searchErrorNothingFound.isVisible = true
+                            recyclerTracks.isVisible = false
                         } else {
-                            recyclerTracks.visibility = View.VISIBLE
-                            searchErrorNothingFound.visibility = View.GONE
-                            searchErrorNetwork.visibility = View.GONE
-                            youWereLookingFor.visibility = View.GONE
-                            cleanHistoryButton.visibility = View.GONE
+                            recyclerTracks.isVisible = true
+                            searchErrorNothingFound.isVisible = false
+                            searchErrorNetwork.isVisible = false
+                            youWereLookingFor.isVisible = false
+                            cleanHistoryButton.isVisible = false
                             recyclerTracks.adapter = MusicListAdapter(response.body(), searchHistory, trackClickListener)
                         }
                     } else {
-                        searchErrorNothingFound.visibility = View.VISIBLE
-                        recyclerTracks.visibility = View.GONE
+                        searchErrorNothingFound.isVisible = true
+                        recyclerTracks.isVisible = false
                         val errorBody = response.errorBody()?.string()
                         Log.e("RetrofitError", "Ошибка сервера: $errorBody")
                     }
@@ -145,8 +143,8 @@ class SearchActivity : AppCompatActivity() {
             searchLine.setText("")
             val hideKeyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             hideKeyboard.hideSoftInputFromWindow(searchLine.windowToken, 0)
-            searchErrorNetwork.visibility = View.GONE
-            searchErrorNothingFound.visibility = View.GONE
+            searchErrorNetwork.isVisible = false
+            searchErrorNothingFound.isVisible = false
         }
 
         // очистка истории поиска
@@ -179,23 +177,16 @@ class SearchActivity : AppCompatActivity() {
             searchTrackInItunes()
         }
 
-        val simpleTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // empty
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        // textWatcher
+        searchLine.addTextChangedListener(
+            beforeTextChanged = { s: CharSequence?, start: Int, count: Int, after: Int -> },
+            onTextChanged = { s: CharSequence?, start: Int, before: Int, count: Int ->
                 clearButton.visibility = clearButtonVisibility(s)
                 countValue = s.toString()
                 showHistory()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // empty
-            }
-        }
-
-        searchLine.addTextChangedListener(simpleTextWatcher)
+            },
+            afterTextChanged = { s: Editable? ->}
+        )
     }
 
     // сохранение значения поля поиска

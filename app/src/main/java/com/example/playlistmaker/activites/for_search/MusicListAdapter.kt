@@ -17,15 +17,16 @@ class MusicListAdapter(private val tracks: SearchTrackResponse?,
     }
 
     override fun onBindViewHolder(holder: MusicListViewHolder, position: Int) {
-        holder.bind(tracks!!.results[position])
-
-        holder.itemView.setOnClickListener {
-            searchHistory.saveHistory(tracks.results[position])
-            trackClickListener.onTrackClick(tracks.results[position])
+        tracks?.let {
+            holder.bind(it.results[position])
+            holder.itemView.setOnClickListener {
+                searchHistory.saveHistory(tracks.results[position])
+                trackClickListener.onTrackClick(tracks.results[position])
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return tracks!!.resultCount
+        return tracks?.resultCount ?: 0
     }
 }

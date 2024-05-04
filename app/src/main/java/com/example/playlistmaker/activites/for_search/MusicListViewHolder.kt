@@ -43,8 +43,8 @@ class MusicListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView)
             .load(imageUrl)
             .placeholder(R.drawable.placeholder_of_track)
-            .transform(RoundedCorners(radius.toInt()))
             .fitCenter()
+            .transform(RoundedCorners(radius.toInt()))
             .into(trackTitle)
     }
 }

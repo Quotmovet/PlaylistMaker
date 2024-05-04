@@ -1,5 +1,5 @@
 package com.example.playlistmaker.activites.for_search
 
-interface TrackClickListener {
+fun interface TrackClickListener {
     fun onTrackClick(track: TrackDataClass)
 }

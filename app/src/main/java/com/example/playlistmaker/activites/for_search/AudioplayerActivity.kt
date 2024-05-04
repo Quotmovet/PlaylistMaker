@@ -77,8 +77,8 @@ class AudioplayerActivity : AppCompatActivity(){
         Glide.with(this)
             .load(newDPI)
             .placeholder(R.drawable.placeholder_of_track)
-            .transform(RoundedCorners(radiusInPixels))
             .fitCenter()
+            .transform(RoundedCorners(radiusInPixels))
             .into(trackTitle)
 
         // Название альбома

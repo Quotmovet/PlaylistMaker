@@ -15,15 +15,19 @@ class HistoryListAdapter(private val tracksHistory: List<TrackDataClass>?,
     }
 
     override fun onBindViewHolder(holder: MusicListViewHolder, position: Int) {
-        val track = tracksHistory!![position]
-        holder.bind(track)
+        val track = tracksHistory?.get(position)
+        if (track != null) {
+            holder.bind(track)
+        }
 
         holder.itemView.setOnClickListener {
-            trackClickListener.onTrackClick(track)
+            if (track != null) {
+                trackClickListener.onTrackClick(track)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return tracksHistory!!.count()
+        return tracksHistory?.count() ?: 0
     }
 }
