@@ -3,6 +3,8 @@ package com.example.playlistmaker.activites
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.util.Log
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -37,6 +40,7 @@ class SearchActivity : AppCompatActivity() {
 
     private var countValue: String = AMOUNT_DEF
     private lateinit var searchLine: EditText
+    private lateinit var searchProgressBar: ProgressBar
     private lateinit var clearButton:ImageButton
     private lateinit var updateButton: Button
 
@@ -49,6 +53,21 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var cleanHistoryButton: Button
 
     private lateinit var searchHistory: SearchHistory
+
+    private var isClickAllowed = true
+
+    private val handler = Handler(Looper.getMainLooper())
+
+    // debouncer
+    private fun debounceOnClick(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DELAY)
+        }
+        return current
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +84,7 @@ class SearchActivity : AppCompatActivity() {
 
         val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
         searchLine = findViewById(R.id.input_search)
+        searchProgressBar = findViewById(R.id.search_progress_bar)
         clearButton = findViewById(R.id.clear_button)
         updateButton = findViewById(R.id.update_button)
 
@@ -81,9 +101,11 @@ class SearchActivity : AppCompatActivity() {
 
         // Отработка нажатий
         val trackClickListener = TrackClickListener { track ->
-            val nextPageIntent = Intent(this@SearchActivity, AudioplayerActivity ::class.java)
-                .apply { putExtra(KEY_FOR_INTENT, track) }
-            startActivity(nextPageIntent)
+            if(debounceOnClick()) {
+                val nextPageIntent = Intent(this@SearchActivity, AudioplayerActivity::class.java)
+                    .apply { putExtra(KEY_FOR_INTENT, track) }
+                startActivity(nextPageIntent)
+            }
         }
 
         // Поиск трека с помощью iTunes
@@ -102,6 +124,7 @@ class SearchActivity : AppCompatActivity() {
                             searchErrorNetwork.isVisible = false
                             youWereLookingFor.isVisible = false
                             cleanHistoryButton.isVisible = false
+                            searchProgressBar.isVisible = false
                             recyclerTracks.adapter = MusicListAdapter(response.body(), searchHistory, trackClickListener)
                         }
                     } else {
@@ -136,6 +159,14 @@ class SearchActivity : AppCompatActivity() {
         // вернуться назад
         toolbar.setNavigationOnClickListener {
             finish()
+        }
+
+        // кружок поиска
+        val searchRunnable = Runnable{searchTrackInItunes()}
+        fun searchDebounce() {
+            handler.removeCallbacks(searchRunnable)
+            handler.postDelayed(searchRunnable, SEARCH_DELAY)
+            searchProgressBar.isVisible = true
         }
 
         // очистка поля поиска
@@ -179,13 +210,15 @@ class SearchActivity : AppCompatActivity() {
 
         // textWatcher
         searchLine.addTextChangedListener(
-            beforeTextChanged = { s: CharSequence?, start: Int, count: Int, after: Int -> },
+            beforeTextChanged = { _: CharSequence?, start: Int, count: Int, after: Int -> },
             onTextChanged = { s: CharSequence?, start: Int, before: Int, count: Int ->
                 clearButton.visibility = clearButtonVisibility(s)
                 countValue = s.toString()
                 showHistory()
+                if(s.toString().isEmpty()) searchErrorNothingFound.isVisible = false
+                if(s.toString().isNotEmpty()) searchDebounce() else searchProgressBar.isVisible = false
             },
-            afterTextChanged = { s: Editable? ->}
+            afterTextChanged = { _: Editable? ->}
         )
     }
 
@@ -213,5 +246,7 @@ class SearchActivity : AppCompatActivity() {
         private const val NULL_POINT = 0
         private const val HISTORY_OF_SEARCH_KEY = "history_of_search_key"
         private const val KEY_FOR_INTENT = "key_for_intent"
+        private const val CLICK_DELAY = 1000L
+        private const val SEARCH_DELAY = 2000L
     }
 }

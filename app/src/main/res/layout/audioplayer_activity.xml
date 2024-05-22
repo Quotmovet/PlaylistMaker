@@ -81,7 +81,7 @@
     <TextView
         android:id="@+id/timeCode"
         style="@style/actualTime"
-        tools:text="0:30"
+        tools:text="0:00"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@+id/rightBorder"
         app:layout_constraintStart_toEndOf="@+id/leftBorder"
@@ -94,6 +94,7 @@
         app:layout_constraintStart_toEndOf="@+id/playButton"
         app:layout_constraintEnd_toEndOf="@+id/rightBorder"
         app:layout_constraintTop_toBottomOf="@+id/singerName"
+        android:enabled="false"
         android:importantForAccessibility="no" />
 
     <TextView
