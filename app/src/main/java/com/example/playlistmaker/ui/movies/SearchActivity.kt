@@ -1,4 +1,4 @@
-package com.example.playlistmaker.activites
+package com.example.playlistmaker.ui.movies
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -21,20 +20,15 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import api_itunes.ITunesAPI
-import api_itunes.SearchTrackResponse
 import com.example.playlistmaker.R
-import com.example.playlistmaker.activites.for_search.AudioplayerActivity
-import com.example.playlistmaker.activites.for_search.HistoryListAdapter
-import com.example.playlistmaker.activites.for_search.MusicListAdapter
-import com.example.playlistmaker.activites.for_search.SearchHistory
-import com.example.playlistmaker.activites.for_search.TrackClickListener
+import com.example.playlistmaker.di.Creator
+import com.example.playlistmaker.domain.api.TrackInteractor
+import com.example.playlistmaker.domain.models.TrackDataClass
+import com.example.playlistmaker.presentation.HistoryListAdapter
+import com.example.playlistmaker.presentation.MusicListAdapter
+import com.example.playlistmaker.presentation.SearchHistory
+import com.example.playlistmaker.presentation.TrackClickListener
 import com.google.android.material.appbar.MaterialToolbar
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
 
@@ -58,6 +52,10 @@ class SearchActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
 
+    private val trackInteracktor: TrackInteractor by lazy {
+        Creator.provideSearchTrackInteractor()
+    }
+
     // debouncer
     private fun debounceOnClick(): Boolean {
         val current = isClickAllowed
@@ -68,19 +66,9 @@ class SearchActivity : AppCompatActivity() {
         return current
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
-        val iTunesBaseUrl = getString(R.string.iTunesBaseUrl)
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(iTunesBaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val iTunesService = retrofit.create(ITunesAPI::class.java)
 
         val toolbar: MaterialToolbar = findViewById(R.id.main_back_button)
         searchLine = findViewById(R.id.input_search)
@@ -109,13 +97,15 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // Поиск трека с помощью iTunes
-        fun searchTrackInItunes(){
-            iTunesService.searchTrack(searchLine.text.toString()).enqueue(object : Callback<SearchTrackResponse>{
-                override fun onResponse(
-                    call: Call<SearchTrackResponse>,
-                    response: Response<SearchTrackResponse> ) {
-                    if (response.isSuccessful) {
-                        if(response.body()?.resultCount == NULL_POINT) {
+        fun searchTrackInItunes() {
+            val expression = searchLine.text.toString()
+            searchProgressBar.isVisible = true
+
+            trackInteracktor.searchTrack(expression, object : TrackInteractor.TrackConsumer {
+                override fun consume(foundTrack: List<TrackDataClass>?) {
+                    runOnUiThread {
+                        searchProgressBar.isVisible = false
+                        if (foundTrack.isNullOrEmpty()) {
                             searchErrorNothingFound.isVisible = true
                             recyclerTracks.isVisible = false
                         } else {
@@ -124,20 +114,9 @@ class SearchActivity : AppCompatActivity() {
                             searchErrorNetwork.isVisible = false
                             youWereLookingFor.isVisible = false
                             cleanHistoryButton.isVisible = false
-                            searchProgressBar.isVisible = false
-                            recyclerTracks.adapter = MusicListAdapter(response.body(), searchHistory, trackClickListener)
+                            recyclerTracks.adapter = MusicListAdapter(foundTrack, searchHistory, trackClickListener)
                         }
-                    } else {
-                        searchErrorNothingFound.isVisible = true
-                        recyclerTracks.isVisible = false
-                        val errorBody = response.errorBody()?.string()
-                        Log.e("RetrofitError", "Ошибка сервера: $errorBody")
                     }
-                }
-
-                override fun onFailure(call: Call<SearchTrackResponse>, t: Throwable) {
-                    searchErrorNetwork.visibility = View.VISIBLE
-                    recyclerTracks.visibility = View.GONE
                 }
             })
         }
@@ -243,7 +222,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
         private const val AMOUNT_DEF = ""
-        private const val NULL_POINT = 0
         private const val HISTORY_OF_SEARCH_KEY = "history_of_search_key"
         private const val KEY_FOR_INTENT = "key_for_intent"
         private const val CLICK_DELAY = 1000L

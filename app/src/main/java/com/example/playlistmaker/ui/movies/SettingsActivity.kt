@@ -1,4 +1,4 @@
-package com.example.playlistmaker.activites
+package com.example.playlistmaker.ui.movies
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.edit
-import com.example.playlistmaker.App
+import com.example.playlistmaker.presentation.App
 import com.example.playlistmaker.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial

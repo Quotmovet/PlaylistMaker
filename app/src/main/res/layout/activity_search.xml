@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/linear_layout"
         style="@style/SearchLayoutStyle"
-        tools:context=".activites.SearchActivity">
+        tools:context=".ui.movies.SearchActivity">
 
         <EditText
             android:id="@+id/input_search"
