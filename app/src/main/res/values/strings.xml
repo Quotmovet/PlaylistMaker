@@ -35,6 +35,7 @@
 
     <!-- Ошибки-->
     <string name="error">Ошибка</string>
+    <string name="serverError">Ошибка работы сервера</string>
     <string name="noReply">Нет Ответа</string>
     <string name="nothingWasFound">Ничего не нашлось</string>
     <string name="communicationProblems">Проблемы со связью</string>

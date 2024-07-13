@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/linear_layout"
         style="@style/SearchLayoutStyle"
-        tools:context=".ui.movies.SearchActivity">
+        tools:context=".search.ui.activity.SearchActivity">
 
         <EditText
             android:id="@+id/input_search"
@@ -29,88 +29,103 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/you_were_looking_for"
-            style="@style/search_error_text"
-            android:layout_height="52dp"
-            android:layout_marginTop="@dimen/s24"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical"
-            android:text="@string/you_were_looking_for"
+        <ProgressBar android:id="@+id/search_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateTint="@color/yp_blue"
             android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/s24"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/search_error_nothing_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="102dp"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/tracks_view_element"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone"/>
+            android:visibility="gone">
 
-        <Button
-            android:id="@+id/clear_history_button"
-            style="@style/updateButton"
-            android:text="@string/clear_history"
-            android:visibility="gone"/>
-    </LinearLayout>
+            <ImageView
+                style="@style/search_error_nothing"
+                android:importantForAccessibility="no" />
 
-    <LinearLayout
-        android:id="@+id/search_error_nothing_found"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="102dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/nothingWasFound" />
+        </LinearLayout>
 
-        <ImageView
-            style="@style/search_error_nothing"
-            android:importantForAccessibility="no" />
+        <LinearLayout
+            android:id="@+id/search_error_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="102dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            style="@style/search_error_text"
-            android:text="@string/nothingWasFound" />
-    </LinearLayout>
+            <ImageView
+                style="@style/search_error_network"
+                android:importantForAccessibility="no" />
 
-    <LinearLayout
-        android:id="@+id/search_error_network"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="102dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/communicationProblems" />
 
-        <ImageView
-            style="@style/search_error_network"
-            android:importantForAccessibility="no" />
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/uploadFailed"
+                android:layout_width="312dp"/>
 
-        <TextView
-            style="@style/search_error_text"
-            android:text="@string/communicationProblems" />
+            <Button
+                style="@style/updateButton"
+                android:id="@+id/update_button" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/search_error_text"
-            android:text="@string/uploadFailed"
-            android:layout_width="312dp"/>
+        <LinearLayout
+            android:id="@+id/history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <Button
-            style="@style/updateButton"
-            android:id="@+id/update_button" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/you_were_looking_for"
+                style="@style/search_error_text"
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/s24"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/you_were_looking_for"
+                android:visibility="gone"/>
 
-    <ProgressBar android:id="@+id/search_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:layout_gravity="center_horizontal"
-        android:indeterminateTint="@color/yp_blue"
-        android:visibility="gone"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/history_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/tracks_view_element"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/clear_history_button"
+                style="@style/updateButton"
+                android:text="@string/clear_history"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
