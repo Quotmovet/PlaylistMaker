@@ -1,28 +1,28 @@
 package com.example.playlistmaker.player.ui.activity
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.AudioplayerActivityBinding
-import com.example.playlistmaker.util.mapper.TrackMapper
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.player.ui.viewModel.AudioPlayerViewModel
-import com.example.playlistmaker.player.ui.viewModel.AudioPlayerViewModelFactory
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.Constatn.KEY_FOR_PLAYER
 import com.example.playlistmaker.util.extensions.dpToPx
 import com.example.playlistmaker.util.extensions.getParcelableExtraCompat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: AudioplayerActivityBinding
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel: AudioPlayerViewModel by viewModel {
+        parametersOf(intent.getParcelableExtraCompat<TrackDataClass>(KEY_FOR_PLAYER))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +30,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupListeners()
-
-        val track = intent.getParcelableExtraCompat(KEY_FOR_PLAYER, TrackDataClass::class.java)
-
-        if (track != null) {
-            val trackModel = TrackMapper.mapTrackDomainToUi(track)
-            viewModel = ViewModelProvider(this,
-                AudioPlayerViewModelFactory(trackModel))[AudioPlayerViewModel::class.java]
-            observeViewModel()
-        } else {
-            Toast.makeText(this,
-                getString(R.string.uploadFailed),
-                Toast.LENGTH_SHORT).show()
-            finish()
-        }
+        observeViewModel()
     }
 
     // Настройка слушателей

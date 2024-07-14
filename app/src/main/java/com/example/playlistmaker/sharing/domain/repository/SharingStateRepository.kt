@@ -1,5 +1,5 @@
 package com.example.playlistmaker.sharing.domain.repository
 
-interface SharingState {
+interface SharingStateRepository {
     fun getStringFromStorage(id: Int): String
 }

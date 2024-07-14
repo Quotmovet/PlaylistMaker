@@ -57,7 +57,6 @@ class AudioPlayerRepositoryImpl : AudioPlayerRepository {
 
     private fun preparePlayer(callbackOnPrepared: () -> Unit,
                               callbackOnCompletion: () -> Unit) {
-
         release()
         player = MediaPlayer().apply {
             setDataSource(currentUrl)

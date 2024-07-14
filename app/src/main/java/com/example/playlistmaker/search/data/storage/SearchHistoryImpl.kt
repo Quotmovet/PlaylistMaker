@@ -2,13 +2,13 @@ package com.example.playlistmaker.search.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.playlistmaker.search.domain.repository.SearchHistory
+import com.example.playlistmaker.search.domain.repository.SearchHistoryRepository
 import com.example.playlistmaker.search.data.dto.TrackDataClassDto
 import com.example.playlistmaker.util.Constatn.KEY_FOR_HISTORY_LIST
 import com.example.playlistmaker.util.Constatn.SHARED_PREFERENCES
 import com.google.gson.Gson
 
-class SearchHistoryImpl (context: Context): SearchHistory {
+class SearchHistoryImpl (context: Context): SearchHistoryRepository {
 
     private val sharedPreferences: SharedPreferences? = context.getSharedPreferences(
         SHARED_PREFERENCES, Context.MODE_PRIVATE)

@@ -5,30 +5,27 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
-import com.example.playlistmaker.di.App
+import com.example.playlistmaker.App
 import com.example.playlistmaker.settings.ui.viewModel.SettingsViewModel
-import com.example.playlistmaker.settings.ui.viewModel.SettingsViewModelFactory
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingActivity : AppCompatActivity() {
+
+    private val viewModel: SettingsViewModel by viewModel()
 
     private lateinit var themeSwitcher: SwitchMaterial
     private lateinit var buttonShareInApp: MaterialTextView
     private lateinit var buttonGroupSupport: MaterialTextView
     private lateinit var buttonArrowInTermOfUse: MaterialTextView
-    private lateinit var viewModel: SettingsViewModel
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        viewModel = ViewModelProvider(this,
-            SettingsViewModelFactory(this))[SettingsViewModel::class.java]
 
         initViews()
         setupListeners()

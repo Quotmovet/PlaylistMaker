@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
@@ -14,14 +13,15 @@ import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.search.ui.adapter.TrackListAdapter
 import com.example.playlistmaker.search.ui.model.TrackState
 import com.example.playlistmaker.util.Constatn.KEY_FOR_PLAYER
-import com.example.playlistmaker.search.ui.viewModel.SearchViewModelFactory
 import com.example.playlistmaker.search.ui.viewModel.SearchingViewModel
 import com.example.playlistmaker.util.mapper.TrackMapper
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchingViewModel
+    private val viewModel: SearchingViewModel by viewModel()
 
     private val adapter = TrackListAdapter { track -> handleTrackClick(track) }
     private val historyAdapter = TrackListAdapter { track -> handleHistoryTrackClick(track) }
@@ -30,9 +30,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this,
-            SearchViewModelFactory(this))[SearchingViewModel::class.java]
 
         setupViews()
         observeViewModel()

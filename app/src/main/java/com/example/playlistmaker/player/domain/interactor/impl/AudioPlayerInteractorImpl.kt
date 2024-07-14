@@ -1,5 +1,6 @@
 package com.example.playlistmaker.player.domain.interactor.impl
 
+import android.util.Log
 import com.example.playlistmaker.player.domain.repository.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.ui.state.PlayerState
@@ -10,6 +11,10 @@ class AudioPlayerInteractorImpl(
     private val trackDataClass: TrackDataClass,
     private val audioPlayerRepository: AudioPlayerRepository
 ) : AudioPlayerInteractor {
+
+    init {
+        Log.d("AudioPlayerInteractorImpl", "Interactor initialized with track: $trackDataClass")
+    }
 
     override fun play() = audioPlayerRepository.play()
 

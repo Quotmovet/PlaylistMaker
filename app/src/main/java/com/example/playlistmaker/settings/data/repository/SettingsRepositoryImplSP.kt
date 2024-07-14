@@ -1,11 +1,11 @@
 package com.example.playlistmaker.settings.data.repository
 
-import com.example.playlistmaker.settings.domain.repository.ThemeState
+import com.example.playlistmaker.settings.domain.repository.SettingsRepository
 import android.content.SharedPreferences
 
-class SettingsThemeRepositoryImplSP(
+class SettingsRepositoryImplSP(
     private val sharedPreferences: SharedPreferences
-) : ThemeState {
+) : SettingsRepository {
 
     companion object {
         private const val SWITCHER_KEY = "switcher_key"
