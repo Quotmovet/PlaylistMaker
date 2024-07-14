@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.activity.AudioPlayerActivity
 import com.example.playlistmaker.search.domain.model.TrackDataClass
+import com.example.playlistmaker.search.ui.adapter.TrackListAdapter
 import com.example.playlistmaker.search.ui.model.TrackState
-import com.example.playlistmaker.search.ui.viewModel.Constatn.KEY_FOR_PLAYER
+import com.example.playlistmaker.util.Constatn.KEY_FOR_PLAYER
 import com.example.playlistmaker.search.ui.viewModel.SearchViewModelFactory
 import com.example.playlistmaker.search.ui.viewModel.SearchingViewModel
+import com.example.playlistmaker.util.mapper.TrackMapper
 
 class SearchActivity : AppCompatActivity() {
 
@@ -161,7 +163,7 @@ class SearchActivity : AppCompatActivity() {
     // Переход к активности воспроизведения музыки (с передачей трека)
     private fun navigateToAudioPlayer(track: TrackDataClass) {
         val intent = Intent(this, AudioPlayerActivity::class.java)
-        intent.putExtra(KEY_FOR_PLAYER, track)
+        intent.putExtra(KEY_FOR_PLAYER, TrackMapper.mapTrackDomainToUi(track))
         startActivity(intent)
     }
 

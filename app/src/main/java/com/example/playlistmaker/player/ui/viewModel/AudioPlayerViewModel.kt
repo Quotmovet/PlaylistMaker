@@ -3,16 +3,18 @@ package com.example.playlistmaker.player.ui.viewModel
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.player.domain.AudioPlayerInteractor
-import com.example.playlistmaker.player.domain.models.TrackModel
-import com.example.playlistmaker.player.ui.activity.PlayerState
+import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
+import com.example.playlistmaker.player.ui.state.PlayerState
+import com.example.playlistmaker.search.domain.model.TrackDataClass
+import com.example.playlistmaker.util.mapper.TrackMapper
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerViewModel(
-    private val trackModel: TrackModel,
+    private val trackDataClass: TrackDataClass,
     private val audioPlayerInteractor: AudioPlayerInteractor
 ) : ViewModel() {
 
@@ -24,17 +26,19 @@ class AudioPlayerViewModel(
     private val _playerState = MutableLiveData<PlayerState>()
     val playerState: LiveData<PlayerState> = _playerState
 
+    // Информация о треке
+    private val _trackInfo = MutableLiveData<TrackDataClass>()
+    val trackInfo: LiveData<TrackDataClass> = _trackInfo
+
     // Текущая позиция
     private val _currentPosition = MutableLiveData<String>()
-    val currentPosition: LiveData<String> = _currentPosition
-
-    // Информация о треке
-    private val _trackInfo = MutableLiveData<TrackModel>()
-    val trackInfo: LiveData<TrackModel> = _trackInfo
 
     // Завершен ли трек
     private val _isTrackCompleted = MutableLiveData<Boolean>()
-    val isTrackCompleted: LiveData<Boolean> = _isTrackCompleted
+
+    // Текущая позиция и проверка на завершенности трека (объединение)
+    private val _isCompleteAndCurrentPositionState = MediatorLiveData<Pair<Boolean, String>>()
+    val isCompleteAndCurrentPositionState: LiveData<Pair<Boolean, String>> = _isCompleteAndCurrentPositionState
 
     private val mainThreadHandler = Handler(Looper.getMainLooper())
 
@@ -49,6 +53,15 @@ class AudioPlayerViewModel(
     init {
         prepareAudioPlayer()
         updateTrackInfo()
+
+        _isCompleteAndCurrentPositionState.addSource(_isTrackCompleted) { isCompleted ->
+            _isCompleteAndCurrentPositionState.value =
+                Pair(isCompleted, _currentPosition.value ?: "00:00")
+        }
+        _isCompleteAndCurrentPositionState.addSource(_currentPosition) { position ->
+            _isCompleteAndCurrentPositionState.value =
+                Pair(_isTrackCompleted.value ?: false, position)
+        }
     }
 
     // Подготовка плеера
@@ -59,7 +72,7 @@ class AudioPlayerViewModel(
                 _currentPosition.postValue("00:00")
             },
             callbackComplete = {
-                _playerState.postValue(PlayerState.STOPPED)
+                _playerState.postValue(PlayerState.COMPLETED)
                 stopPositionUpdates()
                 _isTrackCompleted.postValue(true)
                 _currentPosition.postValue("00:00")
@@ -107,12 +120,12 @@ class AudioPlayerViewModel(
 
     // Обновление информации о треке
     private fun updateTrackInfo() {
-        val updatedTrackModel = trackModel.copy(
-            artworkUrl1100 = trackModel.artworkUrl1100.replaceAfterLast('/', "512x512bb.jpg"),
-            releaseDate = trackModel.releaseDate.split("-", limit = 2)[0],
-            trackTimeMillis = formatTime(trackModel.trackTimeMillis.toLong())
+        val updatedtrackDataClass = TrackMapper.mapTrackDomainToUi(trackDataClass).copy(
+            artworkUrl1100 = trackDataClass.artworkUrl1100.replaceAfterLast('/', "512x512bb.jpg"),
+            releaseDate = trackDataClass.releaseDate.split("-", limit = 2)[0],
+            trackTimeMillis = formatTime(trackDataClass.trackTimeMillis.toLong())
         )
-        _trackInfo.postValue(updatedTrackModel)
+        _trackInfo.postValue(updatedtrackDataClass)
     }
 
     // Форматирование времени

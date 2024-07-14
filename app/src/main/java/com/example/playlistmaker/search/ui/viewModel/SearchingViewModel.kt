@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.search.domain.api.SearchTrackHistoryInteractor
-import com.example.playlistmaker.search.domain.api.TrackInteractor
+import com.example.playlistmaker.search.domain.interactor.SearchTrackHistoryInteractor
+import com.example.playlistmaker.search.domain.interactor.SearchTrackInteractor
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.search.ui.model.TrackState
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SearchingViewModel(
-    private val trackInteractor: TrackInteractor,
+    private val trackInteractor: SearchTrackInteractor,
     private val searchTrackHistoryInteractor: SearchTrackHistoryInteractor
 ) : ViewModel() {
 
