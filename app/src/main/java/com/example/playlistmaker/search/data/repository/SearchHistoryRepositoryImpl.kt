@@ -1,12 +1,12 @@
 package com.example.playlistmaker.search.data.repository
 
-import com.example.playlistmaker.search.domain.repository.SearchHistoryRepository
+import com.example.playlistmaker.search.data.datasource.SearchHistoryLocalDataSource
 import com.example.playlistmaker.search.data.dto.TrackDataClassDto
 import com.example.playlistmaker.search.domain.repository.HistoryTrackRepositorySH
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.mapper.TrackMapper
 
-class SearchHistoryRepositoryImpl(private val searchHistory: SearchHistoryRepository
+class SearchHistoryRepositoryImpl(private val searchHistory: SearchHistoryLocalDataSource
 ): HistoryTrackRepositorySH {
 
     override fun getTrackListFromSH(): Array<TrackDataClass> {

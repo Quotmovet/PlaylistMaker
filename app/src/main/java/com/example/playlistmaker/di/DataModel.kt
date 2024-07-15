@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.Context
 import com.example.playlistmaker.search.data.network.ITunesAPI
 import com.example.playlistmaker.search.data.storage.SearchHistoryImpl
-import com.example.playlistmaker.search.domain.repository.SearchHistoryRepository
+import com.example.playlistmaker.search.data.datasource.SearchHistoryLocalDataSource
 import org.koin.android.ext.koin.androidContext
 
 val dataModule = module {
@@ -29,8 +29,8 @@ val dataModule = module {
 
     factory { Gson() }
 
-    single<SearchHistoryRepository> {
-        SearchHistoryImpl(androidContext())
+    single<SearchHistoryLocalDataSource> {
+        SearchHistoryImpl(get())
     }
 
     single<NetworkClient> {
