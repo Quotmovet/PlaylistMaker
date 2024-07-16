@@ -6,6 +6,13 @@
     <string name="media_library">Медиатека</string>
     <string name="settings">Настройки</string>
 
+    <!-- Экран: Медиатеки -->
+    <string name="media_is_empty">Ваша медиатека пуста</string>
+    <string name="no_one_playlist">Вы не создали\nни одного плейлиста</string>
+    <string name="new_playlist">Новый плейлист</string>
+    <string name="favorite_tracks">Избранные треки</string>
+    <string name="playlists">Плейлисты</string>
+
     <!-- Экран: Настройки -->
     <string name="dark_theme">Темная тема</string>
     <string name="share_app">Поделиться приложением</string>
@@ -41,5 +48,6 @@
     <string name="communicationProblems">Проблемы со связью</string>
     <string name="uploadFailed">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="update">Обновить</string>
+    <string name="server_error">Ошибка сервера</string>
 
 </resources>
