@@ -322,6 +322,10 @@
 
     <!-- Стили экрана activity_media -->
 
+    <style name="linearLayoutStyle">
+        <item name="android:background">@color/yp_black</item>
+    </style>
+
     <style name="tabLayout">
         <item name="android:background">@color/yp_black</item>
         <item name="tabTextColor">@color/yp_white</item>
