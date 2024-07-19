@@ -20,6 +20,6 @@
         style="@style/noPlaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nothingWasFound"/>
+        android:text="@string/media_is_empty"/>
 
 </LinearLayout>
