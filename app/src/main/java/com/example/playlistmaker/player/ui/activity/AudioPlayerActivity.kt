@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.AudioplayerActivityBinding
+import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.player.ui.viewModel.AudioPlayerViewModel
 import com.example.playlistmaker.search.domain.model.TrackDataClass
@@ -19,14 +19,14 @@ import org.koin.core.parameter.parametersOf
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    private lateinit var binding: AudioplayerActivityBinding
+    private lateinit var binding: ActivityAudioplayerBinding
     private val viewModel: AudioPlayerViewModel by viewModel {
         parametersOf(intent.getParcelableExtraCompat<TrackDataClass>(KEY_FOR_PLAYER))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = AudioplayerActivityBinding.inflate(layoutInflater)
+        binding = ActivityAudioplayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupListeners()

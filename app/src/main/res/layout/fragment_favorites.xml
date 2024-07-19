@@ -4,27 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context=".media.ui.FavoritesFragment">
-
-    <Button
-        android:id="@+id/newPlaylistButton"
-        style="@style/updateButton"
-        android:layout_marginTop="24dp"
-        android:text="@string/new_playlist"/>
+    style="@style/themeNavigationColor"
+    tools:context=".media.fragment.FavoritesFragment"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/nothingFound"
         style="@style/nothingFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="106dp"
         tools:ignore="contentDescription"/>
 
     <TextView
         style="@style/noPlaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/no_one_playlist"/>
+        android:text="@string/nothingWasFound"/>
 
 </LinearLayout>

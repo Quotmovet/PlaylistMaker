@@ -49,7 +49,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/yp_white</item>
         <item name="titleTextAppearance">@style/AppToolbarText</item>
-        <item name="navigationIcon">@drawable/arrow_back</item>
     </style>
 
     <style name="AppToolbarText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -337,6 +336,19 @@
         <item name="android:textFontWeight">500</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/yp_black</item>
+    </style>
+
+    <!-- Стили экрана activity_root -->
+
+    <style name="themeNavigationColor">
+        <item name="android:background">@color/yp_white</item>
+    </style>
+
+    <style name="bottomIconStyle">
+        <item name="android:background">@color/yp_white</item>
+        <item name="itemIconTint">@drawable/bottom_nav_selector_day_mode</item>
+        <item name="itemTextColor">@drawable/bottom_nav_selector_day_mode</item>
+        <item name="itemRippleColor">@color/yp_blue</item>
     </style>
 
 </resources>

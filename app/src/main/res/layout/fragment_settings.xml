@@ -3,10 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ActivityLinearLayout">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/main_back_button"
-        style="@style/NavigationInHeader"
-        app:title="@string/settings"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="12dp"
+        android:text="@string/settings"
+        style="@style/AppToolbarText"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switcher"
