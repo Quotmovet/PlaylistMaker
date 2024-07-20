@@ -57,11 +57,19 @@ class SearchingViewModel(
                 val result = withContext(Dispatchers.IO) {
                     trackInteractor.searchTrack(newSearchText)
                 }
-                _tracksState.value = TrackState(
-                    tracks = result.data ?: emptyList(),
-                    isLoading = false,
-                    isFailed = result.isFailed
-                )
+                if (result.data.isNullOrEmpty() && result.isFailed == null) {
+                    _tracksState.value = TrackState(
+                        tracks = emptyList(),
+                        isLoading = false,
+                        isFailed = true
+                    )
+                } else {
+                    _tracksState.value = TrackState(
+                        tracks = result.data ?: emptyList(),
+                        isLoading = false,
+                        isFailed = result.isFailed
+                    )
+                }
                 updateHistoryList()
             }
         } else {
