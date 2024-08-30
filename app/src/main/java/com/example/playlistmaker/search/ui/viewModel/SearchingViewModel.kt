@@ -1,7 +1,5 @@
 package com.example.playlistmaker.search.ui.viewModel
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +9,8 @@ import com.example.playlistmaker.search.domain.interactor.SearchTrackInteractor
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.search.ui.model.TrackState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -33,8 +33,7 @@ class SearchingViewModel(
     val historyList: LiveData<ArrayList<TrackDataClass>> = _historyList
 
     private var lastSearchText: String? = null
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { lastSearchText?.let { searchRequest(it) } }
+    private var searchJob: Job? = null
 
     init {
         updateHistoryList()
@@ -44,8 +43,11 @@ class SearchingViewModel(
     fun searchDebounce(changedText: String) {
         _searchInput.value = changedText
         this.lastSearchText = changedText
-        handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DELAY)
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DELAY)
+            searchRequest(changedText)
+        }
     }
 
     // Запрос
@@ -54,21 +56,20 @@ class SearchingViewModel(
             _tracksState.value = TrackState(emptyList(), isLoading = true, isFailed = null)
 
             viewModelScope.launch {
-                val result = withContext(Dispatchers.IO) {
-                    trackInteractor.searchTrack(newSearchText)
-                }
-                if (result.data.isNullOrEmpty() && result.isFailed == null) {
-                    _tracksState.value = TrackState(
-                        tracks = emptyList(),
-                        isLoading = false,
-                        isFailed = true
-                    )
-                } else {
-                    _tracksState.value = TrackState(
-                        tracks = result.data ?: emptyList(),
-                        isLoading = false,
-                        isFailed = result.isFailed
-                    )
+                trackInteractor.searchTrack(newSearchText).collect() { result ->
+                    if (result.isFailed != null) {
+                        _tracksState.value = TrackState(
+                            tracks = emptyList(),
+                            isLoading = false,
+                            isFailed = result.isFailed
+                        )
+                    } else {
+                        _tracksState.value = TrackState(
+                            tracks = result.data ?: emptyList(),
+                            isLoading = false,
+                            isFailed = null
+                        )
+                    }
                 }
                 updateHistoryList()
             }
@@ -114,11 +115,5 @@ class SearchingViewModel(
             }
             _historyList.value = history
         }
-    }
-
-    // Очистка ViewModel при остановке активности
-    override fun onCleared() {
-        super.onCleared()
-        handler.removeCallbacks(searchRunnable)
     }
 }

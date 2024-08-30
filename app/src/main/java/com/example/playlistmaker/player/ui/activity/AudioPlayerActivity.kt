@@ -1,5 +1,6 @@
 package com.example.playlistmaker.player.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -15,7 +16,6 @@ import com.example.playlistmaker.util.extensions.dpToPx
 import com.example.playlistmaker.util.extensions.getParcelableExtraCompat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-
 
 class AudioPlayerActivity : AppCompatActivity() {
 
@@ -36,28 +36,29 @@ class AudioPlayerActivity : AppCompatActivity() {
     // Настройка слушателей
     private fun setupListeners() {
         binding.mainBackButton.setOnClickListener { finish() }
-        binding.playButton.setOnClickListener { viewModel.playbackControl() }
+        binding.playButton.setOnClickListener { viewModel.onPlayButtonClicked() }
     }
 
     // Реализация наблюдателя за ViewModel
+    @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
         viewModel.trackInfo.observe(this) { track -> bind(track) }
 
-        viewModel.playerState.observe(this) { state ->
+        viewModel.getTrackStateAudioPlayerLiveData().observe(this) { state ->
             when (state) {
-                PlayerState.STARTED -> binding.playButton.setImageResource(R.drawable.button_paused)
-                PlayerState.PAUSED, PlayerState.PREPARED, PlayerState.COMPLETED ->
+                is PlayerState.Playing -> {
+                    binding.playButton.setImageResource(R.drawable.button_paused)
+                    binding.timeCode.text = state.progress
+                }
+                is PlayerState.Paused -> {
                     binding.playButton.setImageResource(R.drawable.play)
+                    binding.timeCode.text = state.progress
+                }
+                is PlayerState.Prepared, is PlayerState.Default -> {
+                    binding.playButton.setImageResource(R.drawable.play)
+                    binding.timeCode.text = "00:00"
+                }
                 else -> { /* Не делаем ничего */ }
-            }
-        }
-
-        viewModel.isCompleteAndCurrentPositionState.observe(this) { (isCompleted, position) ->
-            if (isCompleted) {
-                binding.timeCode.text = "00:00"
-                binding.playButton.setImageResource(R.drawable.play)
-            } else {
-                binding.timeCode.text = position
             }
         }
     }
@@ -69,6 +70,8 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     // Инициализация UI компонентов и привязка к данным из ViewModel
     private fun bind(track: TrackDataClass) {
+        val highResImageUrl = track.artworkUrl1100.replace("100x100bb", "512x512bb")
+
         with(binding) {
             trackName.text = track.trackName
             singerName.text = track.artistName
@@ -89,7 +92,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
             val radiusInPixels = dpToPx(8)
             Glide.with(this@AudioPlayerActivity)
-                .load(track.artworkUrl1100)
+                .load(highResImageUrl)
                 .placeholder(R.drawable.placeholder_of_track)
                 .transform(RoundedCorners(radiusInPixels))
                 .into(trackTitle)

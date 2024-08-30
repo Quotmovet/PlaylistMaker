@@ -1,16 +1,17 @@
 package com.example.playlistmaker.player.ui.viewModel
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.mapper.TrackMapper
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -20,106 +21,95 @@ class AudioPlayerViewModel(
 ) : ViewModel() {
 
     companion object {
-        private const val UPDATE_INTERVAL = 1000L
+        private const val UPDATE_INTERVAL = 300L
     }
 
-    // Состояния плеера
-    private val _playerState = MutableLiveData<PlayerState>()
-    val playerState: LiveData<PlayerState> = _playerState
+    private var timerJob: Job? = null
+
+    // Состояние плеера
+    private val _playerState = MutableLiveData<PlayerState>(PlayerState.Default())
+    fun getTrackStateAudioPlayerLiveData(): LiveData<PlayerState> = _playerState
+
+    // Текущее время
+    private val _currentTime = MutableLiveData<String>()
+    val currentTime: LiveData<String> = _currentTime
 
     // Информация о треке
     private val _trackInfo = MutableLiveData<TrackDataClass>()
     val trackInfo: LiveData<TrackDataClass> = _trackInfo
 
-    // Текущая позиция
-    private val _currentPosition = MutableLiveData<String>()
-
-    // Завершен ли трек
-    private val _isTrackCompleted = MutableLiveData<Boolean>()
-
-    // Текущая позиция и проверка на завершенности трека (объединение)
-    private val _isCompleteAndCurrentPositionState = MediatorLiveData<Pair<Boolean, String>>()
-    val isCompleteAndCurrentPositionState: LiveData<Pair<Boolean, String>> = _isCompleteAndCurrentPositionState
-
-    private val mainThreadHandler = Handler(Looper.getMainLooper())
-
-    // Запуск обновления позиции
-    private val updatePositionRunnable = object : Runnable {
-        override fun run() {
-            updatePosition()
-            mainThreadHandler.postDelayed(this, UPDATE_INTERVAL)
-        }
-    }
-
     init {
-
+        initMediaPlayer()
         Log.d("AudioPlayerViewModel", "ViewModel initialized with track: $trackDataClass")
-
-        prepareAudioPlayer()
         updateTrackInfo()
-
-        _isCompleteAndCurrentPositionState.addSource(_isTrackCompleted) { isCompleted ->
-            _isCompleteAndCurrentPositionState.value =
-                Pair(isCompleted, _currentPosition.value ?: "00:00")
-        }
-        _isCompleteAndCurrentPositionState.addSource(_currentPosition) { position ->
-            _isCompleteAndCurrentPositionState.value =
-                Pair(_isTrackCompleted.value ?: false, position)
-        }
+        Log.d("AudioPlayerViewModel", "ViewModel updated track: $trackDataClass")
     }
 
     // Подготовка плеера
-    private fun prepareAudioPlayer() {
-        audioPlayerInteractor.prepare(
-            callbackPrepare = {
-                _playerState.postValue(PlayerState.PREPARED)
-                _currentPosition.postValue("00:00")
-            },
-            callbackComplete = {
-                _playerState.postValue(PlayerState.COMPLETED)
-                stopPositionUpdates()
-                _isTrackCompleted.postValue(true)
-                _currentPosition.postValue("00:00")
-            }
-        )
+    private fun initMediaPlayer() {
+        audioPlayerInteractor.setDataSource(trackDataClass.previewUrl)
+        audioPlayerInteractor.prepareAsync()
+        audioPlayerInteractor.setOnPreparedListener {
+            _playerState.postValue(PlayerState.Prepared())
+        }
+        audioPlayerInteractor.setOnCompletionListener {
+            _playerState.postValue(PlayerState.Prepared())
+            _currentTime.postValue("00:00")
+            timerJob?.cancel()
+        }
     }
 
     // Контроллер плеера
-    fun playbackControl() {
-        when (audioPlayerInteractor.getState()) {
-            PlayerState.PREPARED, PlayerState.PAUSED, PlayerState.COMPLETED -> play()
-            PlayerState.STARTED -> pause()
+    fun onPlayButtonClicked() {
+        when (_playerState.value) {
+            is PlayerState.Playing -> pause()
+            is PlayerState.Prepared, is PlayerState.Paused -> start()
             else -> { /* Не делаем ничего */ }
         }
     }
 
-    private fun play() {
-        audioPlayerInteractor.play()
-        _playerState.postValue(PlayerState.STARTED)
-        startPositionUpdates()
-        _isTrackCompleted.postValue(false)
+    // Начало проигрывания
+    private fun start() {
+        audioPlayerInteractor.start()
+        _playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
+        startTimer()
     }
 
+    // Пауза
     fun pause() {
         audioPlayerInteractor.pause()
-        _playerState.postValue(PlayerState.PAUSED)
-        stopPositionUpdates()
+        timerJob?.cancel()
+        _playerState.postValue(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
-    // Обновление позиций
-    private fun updatePosition() {
-        if (audioPlayerInteractor.getState() == PlayerState.STARTED) {
-            val position = audioPlayerInteractor.getCurrentPosition()
-            _currentPosition.postValue(formatTime(position.toLong()))
+    // Сброс состояния и освобождение ресурсов
+    private fun release() {
+        audioPlayerInteractor.stop()
+        audioPlayerInteractor.release()
+        _playerState.value = PlayerState.Default()
+    }
+
+    // Обновление текущего времени
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (audioPlayerInteractor.isPlaying()) {
+                delay(UPDATE_INTERVAL)
+                _playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
+            }
         }
     }
 
-    private fun startPositionUpdates() {
-        mainThreadHandler.post(updatePositionRunnable)
+    // Текущее время
+    private fun getCurrentPlayerPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault())
+            .format(audioPlayerInteractor.getCurrentPosition()) ?: "00:00"
     }
 
-    private fun stopPositionUpdates() {
-        mainThreadHandler.removeCallbacks(updatePositionRunnable)
+    // Освобождение ресурсов
+    override fun onCleared() {
+        super.onCleared()
+        release()
+        timerJob?.cancel()
     }
 
     // Обновление информации о треке
@@ -135,12 +125,5 @@ class AudioPlayerViewModel(
     // Форматирование времени
     private fun formatTime(timeMillis: Long): String {
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(timeMillis)
-    }
-
-    // Освобождение ресурсов
-    override fun onCleared() {
-        super.onCleared()
-        stopPositionUpdates()
-        audioPlayerInteractor.release()
     }
 }

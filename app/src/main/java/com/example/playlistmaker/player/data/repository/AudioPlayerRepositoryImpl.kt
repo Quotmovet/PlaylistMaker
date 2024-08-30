@@ -7,32 +7,62 @@ import com.example.playlistmaker.player.ui.state.PlayerState
 class AudioPlayerRepositoryImpl : AudioPlayerRepository {
 
     private var player: MediaPlayer? = null
-    private var currentState = PlayerState.BEFORE_THE_START
+    private var currentState: PlayerState = PlayerState.Default()
     private var currentUrl: String? = null
 
-    override fun play() {
-        when (currentState) {
-            PlayerState.PREPARED, PlayerState.PAUSED -> {
-                player?.start()
-                currentState = PlayerState.STARTED
-            }
-            PlayerState.COMPLETED -> {
-                preparePlayer({
-                    player?.start()
-                    currentState = PlayerState.STARTED
-                }, {
-                    currentState = PlayerState.COMPLETED
-                })
-            }
-            else -> { /* Не делаем ничего */ }
+    private var onPreparedListener: (() -> Unit)? = null
+    private var onCompletionListener: (() -> Unit)? = null
+
+    override fun setDataSource(previewUrl: String) {
+        currentUrl = previewUrl
+        reset()
+    }
+
+    override fun prepareAsync() {
+        player?.let {
+            it.setDataSource(currentUrl)
+            it.prepareAsync()
+            currentState = PlayerState.Default()
         }
     }
 
+    override fun setOnPreparedListener(onPrepared: () -> Unit) {
+        onPreparedListener = onPrepared
+        player?.setOnPreparedListener {
+            currentState = PlayerState.Prepared()
+            onPreparedListener?.invoke()
+        }
+    }
+
+    override fun setOnCompletionListener(onCompletion: () -> Unit) {
+        onCompletionListener = onCompletion
+        player?.setOnCompletionListener {
+            currentState = PlayerState.Completed()
+            onCompletionListener?.invoke()
+        }
+    }
+
+    override fun start() {
+        player?.let {
+            it.start()
+            currentState = PlayerState.Playing(getCurrentPosition().toString())
+        }
+    }
+
+    override fun stop() {
+        player?.let {
+            it.stop()
+            currentState = PlayerState.Default()
+        }
+    }
+
+    override fun isPlaying(): Boolean = player?.isPlaying ?: false
+
     override fun pause() {
         player?.let {
-            if (currentState == PlayerState.STARTED) {
+            if (it.isPlaying) {
                 it.pause()
-                currentState = PlayerState.PAUSED
+                currentState = PlayerState.Paused(getCurrentPosition().toString())
             }
         }
     }
@@ -40,44 +70,13 @@ class AudioPlayerRepositoryImpl : AudioPlayerRepository {
     override fun release() {
         player?.release()
         player = null
-        currentState = PlayerState.BEFORE_THE_START
+        currentState = PlayerState.Default()
     }
 
-    override fun currentPosition(): Int = player?.currentPosition ?: 0
+    override fun getCurrentPosition(): Int = player?.currentPosition ?: 0
 
-    override fun getState(): PlayerState = currentState
-
-    override fun prepare(previewUrl: String,
-                         callbackOnPrepared: () -> Unit,
-                         callbackOnCompletion: () -> Unit) {
-
-        currentUrl = previewUrl
-        preparePlayer(callbackOnPrepared, callbackOnCompletion)
-    }
-
-    private fun preparePlayer(callbackOnPrepared: () -> Unit,
-                              callbackOnCompletion: () -> Unit) {
+    private fun reset() {
         release()
-        player = MediaPlayer().apply {
-            setDataSource(currentUrl)
-            setOnPreparedListener {
-                currentState = PlayerState.PREPARED
-                callbackOnPrepared()
-            }
-            setOnCompletionListener {
-                currentState = PlayerState.COMPLETED
-                callbackOnCompletion()
-            }
-            prepareAsync()
-        }
-        currentState = PlayerState.INITIALIZING
-    }
-
-    override fun reset() {
-        player?.let {
-            it.reset()
-            currentState = PlayerState.BEFORE_THE_START
-        }
+        player = MediaPlayer()
     }
 }
-

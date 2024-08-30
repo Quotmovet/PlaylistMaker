@@ -7,24 +7,31 @@ import com.example.playlistmaker.search.data.dto.SearchTrackResponse
 import com.example.playlistmaker.search.domain.repository.SearchTrackRepository
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.mapper.TrackMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class SearchTrackRepositoryImpl(private val networkClient: NetworkClient):
     SearchTrackRepository {
 
-    override fun searchTrack(expression: String): Resource<List<TrackDataClass>> {
+    override suspend fun searchTrack(expression: String)
+    : Flow<Resource<List<TrackDataClass>>> = flow {
+
         val response = networkClient.doRequest(SearchTrackRequest(expression))
 
-        return when (response.resultCode) {
+        return@flow when (response.resultCode) {
             -1 -> {
-                Resource.Error(isFailed = false)
+                emit(Resource.Error(isFailed = false))
             }
+
             200 -> {
-                Resource.Success((response as SearchTrackResponse).results.map {
-                    TrackMapper.mapTrackDataToDomain(it)
-                })
+                with(response as SearchTrackResponse) {
+                    val data = results.map { TrackMapper.mapTrackDataToDomain(it) }
+                    emit(Resource.Success(data))
+                }
             }
+
             else -> {
-                Resource.Error(isFailed = true)
+                emit(Resource.Error(isFailed = true))
             }
         }
     }

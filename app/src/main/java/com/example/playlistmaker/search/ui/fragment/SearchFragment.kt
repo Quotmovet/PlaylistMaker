@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -53,6 +54,7 @@ class SearchFragment : Fragment()  {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     viewModel.searchDebounce(s?.toString() ?: "")
                 }
+
                 override fun afterTextChanged(s: Editable?) {
                     if (s.isNullOrEmpty()) {
                         viewModel.updateHistoryList()
@@ -85,6 +87,7 @@ class SearchFragment : Fragment()  {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateTracksUI(state: TrackState) {
         with(binding) {
             searchProgressBar.isVisible = state.isLoading
@@ -101,6 +104,7 @@ class SearchFragment : Fragment()  {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateHistoryUI(historyList: ArrayList<TrackDataClass>) {
         with(binding) {
             val hasHistory = historyList.isNotEmpty()
