@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.fragment
+package com.example.playlistmaker.media.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.playlistmaker.databinding.FragmentFavoritesBinding
-import com.example.playlistmaker.media.viewmodel.FavoritesViewModel
+import com.example.playlistmaker.databinding.FragmentPlaylistBinding
+import com.example.playlistmaker.media.ui.viewmodel.PlayListViewModel
 
-class FavoritesFragment : Fragment() {
+class PlayListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = FavoritesFragment()
+        fun newInstance() = PlayListFragment()
     }
 
-    private val viewModel: FavoritesViewModel by viewModels()
+    private val viewModel: PlayListViewModel by viewModels()
 
-    private var _binding: FragmentFavoritesBinding? = null
+    private var _binding: FragmentPlaylistBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,8 +25,7 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavoritesBinding
-            .inflate(inflater, container, false)
+        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
 

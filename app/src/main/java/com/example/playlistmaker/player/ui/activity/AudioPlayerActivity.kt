@@ -1,6 +1,8 @@
 package com.example.playlistmaker.player.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -17,12 +19,16 @@ import com.example.playlistmaker.util.extensions.getParcelableExtraCompat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+var isChangedFavorites: Boolean = false
+
 class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAudioplayerBinding
     private val viewModel: AudioPlayerViewModel by viewModel {
         parametersOf(intent.getParcelableExtraCompat<TrackDataClass>(KEY_FOR_PLAYER))
     }
+
+    private var favoritesButtonState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +43,19 @@ class AudioPlayerActivity : AppCompatActivity() {
     private fun setupListeners() {
         binding.mainBackButton.setOnClickListener { finish() }
         binding.playButton.setOnClickListener { viewModel.onPlayButtonClicked() }
+        binding.likeButton.setOnClickListener{
+            viewModel.onFavoriteClicked()
+            isChangedFavorites = true
+        }
     }
 
     // Реализация наблюдателя за ViewModel
     @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
         viewModel.trackInfo.observe(this) { track -> bind(track) }
+        viewModel.isFavorite.observe(this) { isFavorite ->
+            favoritesButtonState = isFavorite
+            changeLikeButton(isFavorite) }
 
         viewModel.getTrackStateAudioPlayerLiveData().observe(this) { state ->
             when (state) {
@@ -60,6 +73,10 @@ class AudioPlayerActivity : AppCompatActivity() {
                 }
                 else -> { /* Не делаем ничего */ }
             }
+        }
+        viewModel.getTrackIsFavoriteLiveData().observe(this) { isFavorite ->
+            favoritesButtonState = isFavorite
+            changeLikeButton(favoritesButtonState)
         }
     }
 
@@ -97,5 +114,24 @@ class AudioPlayerActivity : AppCompatActivity() {
                 .transform(RoundedCorners(radiusInPixels))
                 .into(trackTitle)
         }
+    }
+
+    // Метод изменения кнопки "Избранное"
+    private fun changeLikeButton(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.likeButton.setImageResource(R.drawable.heart_fill)
+        } else {
+            binding.likeButton.setImageResource(R.drawable.heart_border)
+        }
+    }
+
+    // Завершение активности
+    override fun finish() {
+        val resultIntent = Intent().apply {
+            putExtra("trackId", viewModel.trackInfo.value?.trackId)
+            putExtra("isFavorite", viewModel.getTrackIsFavoriteLiveData().value)
+        }
+        setResult(Activity.RESULT_OK, resultIntent)
+        super.finish()
     }
 }

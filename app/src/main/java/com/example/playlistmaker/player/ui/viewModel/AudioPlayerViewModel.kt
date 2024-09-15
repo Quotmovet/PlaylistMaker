@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.search.domain.model.TrackDataClass
-import com.example.playlistmaker.util.mapper.TrackMapper
+import com.example.playlistmaker.util.TimeUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,9 +30,16 @@ class AudioPlayerViewModel(
     private val _playerState = MutableLiveData<PlayerState>(PlayerState.Default())
     fun getTrackStateAudioPlayerLiveData(): LiveData<PlayerState> = _playerState
 
+    // Кнопка добавления в избранное
+    private val stateFavoritesButtonLiveData = MutableLiveData(trackDataClass.isFavorite)
+    fun getTrackIsFavoriteLiveData(): LiveData<Boolean> = stateFavoritesButtonLiveData
+
+    // Избранное
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
+
     // Текущее время
     private val _currentTime = MutableLiveData<String>()
-    val currentTime: LiveData<String> = _currentTime
 
     // Информация о треке
     private val _trackInfo = MutableLiveData<TrackDataClass>()
@@ -43,6 +50,13 @@ class AudioPlayerViewModel(
         Log.d("AudioPlayerViewModel", "ViewModel initialized with track: $trackDataClass")
         updateTrackInfo()
         Log.d("AudioPlayerViewModel", "ViewModel updated track: $trackDataClass")
+
+        // Подготовка состояния избранного
+        viewModelScope.launch {
+            val isFavorite = audioPlayerInteractor.isTrackFavorite(trackDataClass.trackId)
+            trackDataClass.isFavorite = isFavorite
+            stateFavoritesButtonLiveData.postValue(isFavorite)
+        }
     }
 
     // Подготовка плеера
@@ -65,6 +79,16 @@ class AudioPlayerViewModel(
             is PlayerState.Playing -> pause()
             is PlayerState.Prepared, is PlayerState.Paused -> start()
             else -> { /* Не делаем ничего */ }
+        }
+    }
+
+    // Контроллер избранного
+    fun onFavoriteClicked() {
+        viewModelScope.launch {
+            val newFavoriteState = !trackDataClass.isFavorite
+            audioPlayerInteractor.onFavoriteClick(trackDataClass)
+            trackDataClass.isFavorite = newFavoriteState
+            _isFavorite.postValue(newFavoriteState)
         }
     }
 
@@ -114,16 +138,11 @@ class AudioPlayerViewModel(
 
     // Обновление информации о треке
     private fun updateTrackInfo() {
-        val updatedtrackDataClass = TrackMapper.mapTrackDomainToUi(trackDataClass).copy(
+        val updatedTrackDataClass = trackDataClass.copy(
             artworkUrl1100 = trackDataClass.artworkUrl1100.replaceAfterLast('/', "512x512bb.jpg"),
             releaseDate = trackDataClass.releaseDate.split("-", limit = 2)[0],
-            trackTimeMillis = formatTime(trackDataClass.trackTimeMillis.toLong())
+            trackTimeMillis = TimeUtils.formatTime(trackDataClass.trackTimeMillis.toLong())
         )
-        _trackInfo.postValue(updatedtrackDataClass)
-    }
-
-    // Форматирование времени
-    private fun formatTime(timeMillis: Long): String {
-        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(timeMillis)
+        _trackInfo.postValue(updatedTrackDataClass)
     }
 }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     style="@style/themeNavigationColor"
     android:gravity="center_horizontal"
-    tools:context=".media.fragment.FavoritesFragment">
+    tools:context=".media.ui.fragment.FavoritesFragment">
 
     <Button
         android:id="@+id/newPlaylistButton"

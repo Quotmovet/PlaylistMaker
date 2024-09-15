@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     style="@style/themeNavigationColor"
     android:orientation="vertical"
-    tools:context=".media.fragment.MediaFragment">
+    tools:context=".media.ui.fragment.MediaFragment">
 
     <TextView
         android:layout_width="wrap_content"

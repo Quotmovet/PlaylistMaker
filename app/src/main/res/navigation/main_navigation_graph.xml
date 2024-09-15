@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="com.example.playlistmaker.media.fragment.MediaFragment"
+        android:name="com.example.playlistmaker.media.ui.fragment.MediaFragment"
         android:label="fragment_media"
         tools:layout="@layout/fragment_media" />
 

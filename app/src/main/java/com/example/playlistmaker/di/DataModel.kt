@@ -7,6 +7,9 @@ import com.google.gson.Gson
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.room.Room
+import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.search.data.network.ITunesAPI
 import com.example.playlistmaker.search.data.storage.SearchHistoryImpl
 import com.example.playlistmaker.search.data.datasource.SearchHistoryLocalDataSource
@@ -22,9 +25,8 @@ val dataModule = module {
             .create(ITunesAPI::class.java)
     }
 
-    single {
-        androidContext()
-            .getSharedPreferences("playlist_maker_preferences", Context.MODE_PRIVATE)
+    single<SharedPreferences> {
+        get<Context>().getSharedPreferences("playlist_maker_preferences", Context.MODE_PRIVATE)
     }
 
     factory { Gson() }
@@ -35,5 +37,10 @@ val dataModule = module {
 
     single<NetworkClient> {
         RetrofitNetworkClient(get(), androidContext())
+    }
+
+    single{
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database.db")
+            .build()
     }
 }

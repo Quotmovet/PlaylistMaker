@@ -5,21 +5,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/themeNavigationColor"
-    tools:context=".media.fragment.FavoritesFragment"
+    tools:context=".media.ui.fragment.FavoritesFragment"
     tools:ignore="UseCompoundDrawables">
 
-    <ImageView
-        android:id="@+id/nothingFound"
-        style="@style/nothingFound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="106dp"
-        tools:ignore="contentDescription"/>
-
-    <TextView
-        style="@style/noPlaylist"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/media_is_empty"/>
+        android:layout_height="match_parent">
+
+        <ProgressBar android:id="@+id/mediaProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateTint="@color/yp_blue"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/s24"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nothingFoundFavorites"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/nothingFound"
+                style="@style/nothingFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="106dp"
+                tools:ignore="contentDescription"/>
+
+            <TextView
+                style="@style/noPlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/media_is_empty" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

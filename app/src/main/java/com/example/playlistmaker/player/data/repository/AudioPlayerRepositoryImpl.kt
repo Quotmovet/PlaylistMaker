@@ -3,6 +3,7 @@ package com.example.playlistmaker.player.data.repository
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.repository.AudioPlayerRepository
 import com.example.playlistmaker.player.ui.state.PlayerState
+import com.example.playlistmaker.search.domain.model.TrackDataClass
 
 class AudioPlayerRepositoryImpl : AudioPlayerRepository {
 
@@ -74,6 +75,10 @@ class AudioPlayerRepositoryImpl : AudioPlayerRepository {
     }
 
     override fun getCurrentPosition(): Int = player?.currentPosition ?: 0
+
+    override fun onFavoriteClick(track: TrackDataClass){
+        track.isFavorite = !track.isFavorite
+    }
 
     private fun reset() {
         release()

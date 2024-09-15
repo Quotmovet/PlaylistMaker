@@ -54,4 +54,12 @@ class SearchTrackHistoryInteractorImpl(private val historyTrackRepositorySH: His
         historyList.removeAt(index)
         historyList.add(0, trackToMove)
     }
+
+    override suspend fun updateFavoriteStatus(trackId: Int, isFavorite: Boolean) {
+        val track = historyList.find { it.trackId == trackId }
+        track?.let {
+            it.isFavorite = isFavorite
+            saveHistoryList()
+        }
+    }
 }

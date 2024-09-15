@@ -1,21 +1,16 @@
 package com.example.playlistmaker.player.domain.interactor.impl
 
-import android.util.Log
+import com.example.playlistmaker.media.data.db.converters.TrackDbConverter
+import com.example.playlistmaker.media.domain.db.FavoritesRepository
 import com.example.playlistmaker.player.domain.repository.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.search.domain.model.TrackDataClass
-import com.example.playlistmaker.util.mapper.TrackMapper
 
 class AudioPlayerInteractorImpl(
-    trackDataClass: TrackDataClass,
-    private val audioPlayerRepository: AudioPlayerRepository
+    private val audioPlayerRepository: AudioPlayerRepository,
+    private val favoritesRepository: FavoritesRepository,
+    private val trackDbConverter: TrackDbConverter,
 ) : AudioPlayerInteractor {
-
-    init {
-        Log.d("AudioPlayerInteractorImpl", "Interactor initialized with track: $trackDataClass")
-    }
-
-    private val uiTrack = TrackMapper.mapTrackDomainToUi(trackDataClass)
 
     override fun pause() = audioPlayerRepository.pause()
 
@@ -26,7 +21,7 @@ class AudioPlayerInteractorImpl(
     override fun isPlaying(): Boolean = audioPlayerRepository.isPlaying()
 
     override fun setDataSource(previewUrl: String) {
-        audioPlayerRepository.setDataSource(uiTrack.previewUrl)
+        audioPlayerRepository.setDataSource(previewUrl)
     }
 
     override fun start() {
@@ -47,5 +42,19 @@ class AudioPlayerInteractorImpl(
 
     override fun prepareAsync() {
         audioPlayerRepository.prepareAsync()
+    }
+
+    override suspend fun onFavoriteClick(track: TrackDataClass) {
+        val trackEntity = trackDbConverter.map(track)
+        if (track.isFavorite) {
+            favoritesRepository.deleteTrack(trackEntity)
+        } else {
+            favoritesRepository.insertTrack(trackEntity)
+        }
+        track.isFavorite = !track.isFavorite
+    }
+
+    override suspend fun isTrackFavorite(trackId: Int): Boolean {
+        return favoritesRepository.isTrackFavorite(trackId)
     }
 }

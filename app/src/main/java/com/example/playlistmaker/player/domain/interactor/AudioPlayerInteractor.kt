@@ -1,5 +1,7 @@
 package com.example.playlistmaker.player.domain.interactor
 
+import com.example.playlistmaker.search.domain.model.TrackDataClass
+
 interface AudioPlayerInteractor {
     fun setDataSource(previewUrl: String)
     fun prepareAsync()
@@ -11,4 +13,6 @@ interface AudioPlayerInteractor {
     fun pause()
     fun release()
     fun getCurrentPosition(): Int
+    suspend fun onFavoriteClick(track: TrackDataClass)
+    suspend fun isTrackFavorite(trackId: Int): Boolean
 }

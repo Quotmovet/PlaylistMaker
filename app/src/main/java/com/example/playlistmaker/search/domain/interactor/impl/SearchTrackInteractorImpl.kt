@@ -7,10 +7,9 @@ import com.example.playlistmaker.search.domain.model.TrackDataClass
 import kotlinx.coroutines.flow.Flow
 
 class SearchTrackInteractorImpl(
-    private val searchTrackRepository: SearchTrackRepository
-) : SearchTrackInteractor {
+    private val searchTrackRepository: SearchTrackRepository) : SearchTrackInteractor {
 
         override suspend fun searchTrack(expression: String): Flow<Resource<List<TrackDataClass>>> {
-        return searchTrackRepository.searchTrack(expression)
+            return searchTrackRepository.searchTrack(expression)
     }
 }

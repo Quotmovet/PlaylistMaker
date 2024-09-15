@@ -8,4 +8,5 @@ interface SearchTrackHistoryInteractor {
     fun addTrackToHistoryList(track: TrackDataClass)
     fun clearHistoryList()
     fun transferToTop(track: TrackDataClass): Int
+    suspend fun updateFavoriteStatus(trackId: Int, isFavorite: Boolean)
 }
