@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playlistViewElement"
+    android:layout_width="160dp"
+    android:layout_height="196dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginEnd="8dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/playlistTitle"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="center_vertical"
+        android:importantForAccessibility="no"
+        tools:src="@drawable/playlist_rectangle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/playlistName"
+            style="@style/textInPlaylist"
+            tools:text="Best songs 2021"/>
+
+        <TextView
+            android:id="@+id/numbersOfTracks"
+            style="@style/textInPlaylist"
+            tools:text="98 треков"/>
+
+    </LinearLayout>
+</LinearLayout >

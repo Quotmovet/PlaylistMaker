@@ -49,8 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/s24"
-            android:visibility="visible"
-            />
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/search_error_nothing_found"
@@ -118,7 +117,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/tracks_view_element"
+                tools:listitem="@layout/view_element_track"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:visibility="gone"/>
 
@@ -127,8 +126,7 @@
                 style="@style/updateButton"
                 android:text="@string/clear_history"
                 android:visibility="gone"/>
+
         </LinearLayout>
-
     </FrameLayout>
-
 </LinearLayout>

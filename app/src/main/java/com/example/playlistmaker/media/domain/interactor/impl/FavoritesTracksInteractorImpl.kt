@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.domain.impl
+package com.example.playlistmaker.media.domain.interactor.impl
 
 import com.example.playlistmaker.media.domain.db.FavoritesRepository
 import com.example.playlistmaker.media.domain.interactor.FavoriteTracksInteractor

@@ -57,7 +57,6 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    // Показать плейсхолдер
     private fun showPlaceholder(){
         binding.recyclerViewFavorites.isVisible = false
         binding.nothingFoundFavorites.isVisible = true
@@ -95,7 +94,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        binding.recyclerViewFavorites.adapter = null
+        if (::binding.isInitialized) binding.recyclerViewFavorites.adapter = null
         tracks.clear()
     }
 }

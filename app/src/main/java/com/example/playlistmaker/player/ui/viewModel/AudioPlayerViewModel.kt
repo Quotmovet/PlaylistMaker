@@ -5,19 +5,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.creatingPlaylist.domain.interactor.CreatingPlaylistInteractor
+import com.example.playlistmaker.creatingPlaylist.domain.model.PlaylistDataClass
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.TimeUtils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerViewModel(
     private val trackDataClass: TrackDataClass,
-    private val audioPlayerInteractor: AudioPlayerInteractor
+    private val audioPlayerInteractor: AudioPlayerInteractor,
+    private val creatingPlaylistInteractor: CreatingPlaylistInteractor,
 ) : ViewModel() {
 
     companion object {
@@ -34,24 +39,25 @@ class AudioPlayerViewModel(
     private val stateFavoritesButtonLiveData = MutableLiveData(trackDataClass.isFavorite)
     fun getTrackIsFavoriteLiveData(): LiveData<Boolean> = stateFavoritesButtonLiveData
 
-    // Избранное
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> = _isFavorite
 
-    // Текущее время
     private val _currentTime = MutableLiveData<String>()
 
-    // Информация о треке
     private val _trackInfo = MutableLiveData<TrackDataClass>()
     val trackInfo: LiveData<TrackDataClass> = _trackInfo
 
+    private val _addTrackStatus = MutableLiveData<AddTrackStatus>()
+    val addTrackStatus: LiveData<AddTrackStatus> = _addTrackStatus
+
     init {
         initMediaPlayer()
-        Log.d("AudioPlayerViewModel", "ViewModel initialized with track: $trackDataClass")
         updateTrackInfo()
-        Log.d("AudioPlayerViewModel", "ViewModel updated track: $trackDataClass")
+        initFavoriteState()
+    }
 
-        // Подготовка состояния избранного
+    // Подготовка состояния избранного
+    private fun initFavoriteState() {
         viewModelScope.launch {
             val isFavorite = audioPlayerInteractor.isTrackFavorite(trackDataClass.trackId)
             trackDataClass.isFavorite = isFavorite
@@ -69,6 +75,7 @@ class AudioPlayerViewModel(
         audioPlayerInteractor.setOnCompletionListener {
             _playerState.postValue(PlayerState.Prepared())
             _currentTime.postValue("00:00")
+            _currentTime.postValue(getCurrentPlayerPosition())
             timerJob?.cancel()
         }
     }
@@ -89,17 +96,16 @@ class AudioPlayerViewModel(
             audioPlayerInteractor.onFavoriteClick(trackDataClass)
             trackDataClass.isFavorite = newFavoriteState
             _isFavorite.postValue(newFavoriteState)
+            stateFavoritesButtonLiveData.postValue(newFavoriteState)
         }
     }
 
-    // Начало проигрывания
     private fun start() {
         audioPlayerInteractor.start()
         _playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
         startTimer()
     }
 
-    // Пауза
     fun pause() {
         audioPlayerInteractor.pause()
         timerJob?.cancel()
@@ -123,7 +129,6 @@ class AudioPlayerViewModel(
         }
     }
 
-    // Текущее время
     private fun getCurrentPlayerPosition(): String {
         return SimpleDateFormat("mm:ss", Locale.getDefault())
             .format(audioPlayerInteractor.getCurrentPosition()) ?: "00:00"
@@ -136,7 +141,6 @@ class AudioPlayerViewModel(
         timerJob?.cancel()
     }
 
-    // Обновление информации о треке
     private fun updateTrackInfo() {
         val updatedTrackDataClass = trackDataClass.copy(
             artworkUrl1100 = trackDataClass.artworkUrl1100.replaceAfterLast('/', "512x512bb.jpg"),
@@ -145,4 +149,42 @@ class AudioPlayerViewModel(
         )
         _trackInfo.postValue(updatedTrackDataClass)
     }
+
+    fun addTrackToPlaylist(playlist: PlaylistDataClass, track: TrackDataClass) {
+        viewModelScope.launch {
+            if (playlist.tracksListId.contains(track.trackId)) {
+                _addTrackStatus.value = AddTrackStatus.AlreadyExists(playlist.playlistName)
+            } else {
+                try {
+                    withContext(Dispatchers.IO) {
+                        creatingPlaylistInteractor.addTrackInPlaylist(track)
+                    }
+
+                    playlist.tracksListId.add(track.trackId)
+                    playlist.trackCount++
+
+                    withContext(Dispatchers.IO) {
+                        creatingPlaylistInteractor.updatePlaylist(playlist).collect { result ->
+                            withContext(Dispatchers.Main) {
+                                if (result > 0) {
+                                    _addTrackStatus.value = AddTrackStatus.Success(playlist.playlistName)
+                                } else {
+                                    _addTrackStatus.value = AddTrackStatus.Error
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("AudioPlayerViewModel", "Error adding track to playlist: ${e.message}")
+                    _addTrackStatus.value = AddTrackStatus.Error
+                }
+            }
+        }
+    }
+}
+
+sealed class AddTrackStatus {
+    data class Success(val playlistName: String) : AddTrackStatus()
+    data class AlreadyExists(val playlistName: String) : AddTrackStatus()
+    data object Error : AddTrackStatus()
 }
