@@ -1,6 +1,6 @@
 package com.example.playlistmaker.player.domain.interactor.impl
 
-import com.example.playlistmaker.media.data.db.converters.TrackDbConverter
+import com.example.playlistmaker.media.data.db.converter.TrackDbConverter
 import com.example.playlistmaker.media.domain.db.FavoritesRepository
 import com.example.playlistmaker.player.domain.repository.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor

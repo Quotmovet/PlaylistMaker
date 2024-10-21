@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.TracksViewElementBinding
+import com.example.playlistmaker.databinding.ViewElementTrackBinding
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.mapper.TrackMapper
 import java.text.SimpleDateFormat
@@ -21,7 +21,7 @@ class TrackListAdapter(private val trackClickListener: TrackClickListener) :
         fun onTrackClick(track: TrackDataClass)
     }
 
-    class MusicListViewHolder(private val binding: TracksViewElementBinding) :
+    class MusicListViewHolder(private val binding: ViewElementTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val radius: Float = 2 * itemView.resources.displayMetrics.density
@@ -47,7 +47,7 @@ class TrackListAdapter(private val trackClickListener: TrackClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = TracksViewElementBinding.inflate(inflater, parent, false)
+        val binding = ViewElementTrackBinding.inflate(inflater, parent, false)
         return MusicListViewHolder(binding)
     }
 

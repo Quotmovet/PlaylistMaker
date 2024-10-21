@@ -1,7 +1,7 @@
 package com.example.playlistmaker.media.data.impl
 
 import com.example.playlistmaker.media.data.db.AppDatabase
-import com.example.playlistmaker.media.data.db.converters.TrackDbConverter
+import com.example.playlistmaker.media.data.db.converter.TrackDbConverter
 import com.example.playlistmaker.media.data.db.entity.TrackEntity
 import com.example.playlistmaker.media.domain.db.FavoritesRepository
 import com.example.playlistmaker.search.domain.model.TrackDataClass

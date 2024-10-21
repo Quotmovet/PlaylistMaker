@@ -6,6 +6,9 @@
     <string name="media_library">Media library</string>
     <string name="favorite_tracks">Favorite tracks</string>
     <string name="playlists">Playlists</string>
+    <string name="name_of_playlist">Playlist name*</string>
+    <string name="description">Description</string>
+    <string name="add_to_playlist">Add to playlist</string>
     <string name="dark_theme">Dark theme</string>
     <string name="share_app">Share app</string>
     <string name="write_support">Support</string>
@@ -34,4 +37,16 @@
     <string name="new_playlist">New playlist</string>
     <string name="server_error">Server operation error</string>
     <string name="serverError">Server operation error</string>
+    <string name="create">Create</string>
+    <string name="playlist">Playlist</string>
+    <string name="created">was created</string>
+    <string name="already_added">The track has already been added to the playlist</string>
+    <string name="track_added_to_playlist">Track succesfuly added to playlist</string>
+    <string name="error_creating_playlist">Error creating playlist</string>
+    <string name="finish_creating_playlist">Finish creating a playlist?</string>
+    <string name="data_will_be_lost">All unsaved data will be lost</string>
+    <string name="cancel">Cancel</string>
+    <string name="complete">Complete</string>
+    <string name="error_adding_track">Error adding track</string>
+    <string name="no_track_selected">No track selected</string>
 </resources>
