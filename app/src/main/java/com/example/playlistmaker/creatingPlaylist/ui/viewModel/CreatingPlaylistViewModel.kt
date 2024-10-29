@@ -14,13 +14,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CreatingPlaylistViewModel(
-    private val interactor: CreatingPlaylistInteractor
+open class CreatingPlaylistViewModel(
+    val interactor: CreatingPlaylistInteractor
 ) : ViewModel() {
 
-    private var playListName: String = ""
-    private var playListDescription: String = ""
-    private var playListUri: String = ""
+    var playListName: String = ""
+    var playListDescription: String = ""
+    var playListUri: String = ""
 
     private val _isPlaylistAdded = MutableStateFlow(StatePlaylistAdded.NOTHING)
     val isPlaylistAdded: StateFlow<StatePlaylistAdded> = _isPlaylistAdded.asStateFlow()
@@ -94,5 +94,9 @@ class CreatingPlaylistViewModel(
 
     fun resetState() {
         _isPlaylistAdded.value = StatePlaylistAdded.NOTHING
+    }
+
+    open fun isFilled() {
+        CreatingPlaylistFragment.isCreatePlaylistFragmentFilled = playListName.isNotEmpty() || playListDescription.isNotEmpty() || playListUri.isNotEmpty()
     }
 }

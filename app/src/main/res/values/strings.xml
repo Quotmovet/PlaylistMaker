@@ -17,6 +17,8 @@
     <string name="name_of_playlist">Название*</string>
     <string name="description">Описание</string>
     <string name="create">Создать</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
 
     <!-- Экран: Настройки -->
@@ -35,6 +37,12 @@
     <string name="year">Год</string>
     <string name="genre">Жанр</string>
     <string name="country">Страна</string>
+
+    <!-- Экран: Плейлист -->
+    <string name="share">Поделиться</string>
+    <string name="editInformation">Редактировать информацию</string>
+    <string name="deletePlaylist">Удалить плейлист</string>
+    <string name="traksNotAdd">Треки еще не добавлены</string>
 
     <!-- Поделиться приложением (сообщения)-->
     <string name="email">student_email@domain.com</string>
@@ -60,11 +68,24 @@
     <!-- Сообщения-->
     <string name="already_added">Трек уже добавлен в плейлист</string>
     <string name="track_added_to_playlist">Трек успешно добавлен в плейлист</string>
+    <string name="playlist_updated">Плейлист успешно обновлен</string>
+    <string name="error_playlist_updated">Ошибка при обновлении плейлиста</string>
     <string name="error_adding_track">Ошибка добавления трека</string>
     <string name="finish_creating_playlist">Завершить создание плейлиста?</string>
     <string name="no_track_selected">Не выбран трек</string>
+
+    <!-- Диалоговые окна-->
     <string name="data_will_be_lost">Все несохраненные данные будут потеряны</string>
+    <string name="attention">Внимание</string>
+    <string name="nothing_to_share">Отсутствуют треки для отправки</string>
+    <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="complete">Завершить</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="want_to_delete_track">Хотите удалить трек?</string>
+    <string name="want_to_delete_playlist">Хотите удалить плейлист</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="delete_track">Удалить трек</string>
 
 </resources>

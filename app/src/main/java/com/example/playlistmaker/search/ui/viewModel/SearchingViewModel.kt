@@ -56,7 +56,7 @@ class SearchingViewModel(
             _tracksState.value = TrackState(emptyList(), isLoading = true, isFailed = null)
 
             viewModelScope.launch {
-                trackInteractor.searchTrack(newSearchText).collect() { result ->
+                trackInteractor.searchTrack(newSearchText).collect { result ->
                     if (result.isFailed != null) {
                         _tracksState.value = TrackState(
                             tracks = emptyList(),
@@ -64,11 +64,7 @@ class SearchingViewModel(
                             isFailed = result.isFailed
                         )
                     } else {
-                        _tracksState.value = TrackState(
-                            tracks = result.data ?: emptyList(),
-                            isLoading = false,
-                            isFailed = null
-                        )
+                        setTrackState(result.data ?: emptyList())
                     }
                 }
                 updateHistoryList()
@@ -115,5 +111,14 @@ class SearchingViewModel(
             }
             _historyList.value = history
         }
+    }
+
+    private fun setTrackState(tracks: List<TrackDataClass>) {
+        _tracksState.value = TrackState(
+            tracks = tracks,
+            isLoading = false,
+            isFailed = null,
+            isEmpty = tracks.isEmpty() && !_searchInput.value.isNullOrEmpty()
+        )
     }
 }

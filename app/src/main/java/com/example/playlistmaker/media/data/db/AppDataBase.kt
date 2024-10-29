@@ -10,7 +10,7 @@ import com.example.playlistmaker.player.data.db.dao.TracksFromPlaylistsDao
 import com.example.playlistmaker.player.data.db.entity.TrackFromPlaylistsEntity
 
 @Database(
-    version = 4,
+    version = 6,
     entities = [TrackEntity::class, PlaylistEntity::class, TrackFromPlaylistsEntity::class],
     exportSchema = false)
 

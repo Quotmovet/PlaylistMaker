@@ -4,5 +4,8 @@ import com.example.playlistmaker.creatingPlaylist.domain.model.PlaylistDataClass
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistInteractor {
+
     suspend fun getPlaylists(): Flow<List<PlaylistDataClass>>
+
+    fun deleteTrackById(trackId: Int)
 }

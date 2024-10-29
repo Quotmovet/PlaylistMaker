@@ -21,6 +21,9 @@
     <string name="album">Album</string>
     <string name="year">Year</string>
     <string name="genre">Genre</string>
+    <string name="share">Share</string>
+    <string name="editInformation">Edit information</string>
+    <string name="deletePlaylist">Delete playlist</string>
     <string name="email">student_email@domain.com</string>
     <string name="noReply">No Reply</string>
     <string name="error">Error</string>
@@ -41,7 +44,7 @@
     <string name="playlist">Playlist</string>
     <string name="created">was created</string>
     <string name="already_added">The track has already been added to the playlist</string>
-    <string name="track_added_to_playlist">Track succesfuly added to playlist</string>
+    <string name="track_added_to_playlist">Track successfully added to playlist</string>
     <string name="error_creating_playlist">Error creating playlist</string>
     <string name="finish_creating_playlist">Finish creating a playlist?</string>
     <string name="data_will_be_lost">All unsaved data will be lost</string>
@@ -49,4 +52,18 @@
     <string name="complete">Complete</string>
     <string name="error_adding_track">Error adding track</string>
     <string name="no_track_selected">No track selected</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="want_to_delete_track">Do you want to delete track?</string>
+    <string name="want_to_delete_playlist">Do you want to delete playlist</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="traksNotAdd">Traks not add yet</string>
+    <string name="delete_playlist">Delete playlist</string>
+    <string name="attention">Attention</string>
+    <string name="nothing_to_share">There are no tracks to send</string>
+    <string name="ok">OK</string>
+    <string name="delete_track">Delete track</string>
+    <string name="playlist_updated">Playlist successfully updated</string>
+    <string name="error_playlist_updated">Error updating playlist</string>
 </resources>

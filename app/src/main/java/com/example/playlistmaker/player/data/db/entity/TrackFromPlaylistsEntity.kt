@@ -1,11 +1,12 @@
 package com.example.playlistmaker.player.data.db.entity
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "tracks_from_playlists_table")
+@Entity(
+    tableName = "tracks_from_playlists_table",
+    primaryKeys = ["trackName", "trackId"]
+)
 class TrackFromPlaylistsEntity (
-    @PrimaryKey(autoGenerate = false)
     val id: Int,         // Первичный ключ
     val trackName: String,
     val artistName: String,

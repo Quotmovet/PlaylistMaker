@@ -87,11 +87,10 @@ class SearchFragment : Fragment()  {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun updateTracksUI(state: TrackState) {
         with(binding) {
             searchProgressBar.isVisible = state.isLoading
-            searchErrorNothingFound.isVisible = state.tracks.isEmpty() && !state.isLoading && state.isFailed == true
+            searchErrorNothingFound.isVisible = state.isEmpty
             searchErrorNetwork.isVisible = state.isFailed == false
 
             if (state.tracks.isNotEmpty()) {

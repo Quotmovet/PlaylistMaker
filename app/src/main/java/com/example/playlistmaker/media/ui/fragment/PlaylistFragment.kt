@@ -13,6 +13,7 @@ import com.example.playlistmaker.creatingPlaylist.domain.model.PlaylistDataClass
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.ui.adapter.PlaylistAdapter
 import com.example.playlistmaker.media.ui.viewmodel.PlaylistViewModel
+import com.example.playlistmaker.playlist.ui.fragment.PlaylistPageFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
@@ -20,10 +21,9 @@ class PlaylistFragment : Fragment() {
     companion object {
         fun newInstance() = PlaylistFragment()
     }
+
     private lateinit var binding: FragmentPlaylistBinding
-
     private val viewModel by viewModel<PlaylistViewModel>()
-
     private lateinit var  adapter: PlaylistAdapter
 
     private val playlists = arrayListOf<PlaylistDataClass>()
@@ -45,7 +45,13 @@ class PlaylistFragment : Fragment() {
                 R.id.action_playlistFragment_to_newPlaylistFragment)
         }
 
-        adapter = PlaylistAdapter ()
+        adapter = PlaylistAdapter { playlistId ->
+            findNavController().navigate(
+                R.id.action_playlistFragment_to_playlistPageFragment,
+                PlaylistPageFragment.createArgs(playlistId)
+            )
+        }
+
         adapter.playlists = playlists
 
         binding.recyclerViewOfPlaylists.adapter = adapter
