@@ -72,11 +72,22 @@ class PlaylistRepositoryImpl (
 
     private fun updatePlaylistTrackCount(playlistId: Int) {
         val playlist = appDatabase.getPlaylistDao().getPlaylistById(playlistId)
-        val trackIds = playlist.tracksListId.split(",").filter { it.isNotEmpty() }
-        val newTrackCount = trackIds.size
-        if (playlist.trackCount != newTrackCount) {
-            playlist.trackCount = newTrackCount
-            appDatabase.getPlaylistDao().updatePlaylist(playlist)
+
+        if (playlist != null) {
+            val trackIds = if (playlist.tracksListId == "[]" || playlist.tracksListId.isEmpty()) {
+                emptyList()
+            } else {
+                playlist.tracksListId.split(",").filter { it.isNotEmpty() }
+            }
+
+            val newTrackCount = trackIds.size
+
+            if (playlist.trackCount != newTrackCount) {
+                playlist.trackCount = newTrackCount
+                appDatabase.getPlaylistDao().updatePlaylist(playlist)
+            }
+        } else {
+            Log.e("PlaylistDebug", "Playlist with id $playlistId not found")
         }
     }
 }
