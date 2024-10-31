@@ -66,7 +66,7 @@ class PlaylistRepositoryImpl (
 
     override fun deletePlaylistById(playlistId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            appDatabase.getPlaylistDao().deleteTrackCompletely(playlistId)
+            appDatabase.getPlaylistDao().deletePlaylistById(playlistId)
         }
     }
 

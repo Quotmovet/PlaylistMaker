@@ -16,7 +16,7 @@ import com.example.playlistmaker.player.data.db.entity.TrackFromPlaylistsEntity
 
 abstract class AppDatabase : RoomDatabase(){
 
-    abstract fun trackDao(): TrackDao
+    abstract fun getTrackDao(): TrackDao
 
     abstract fun getPlaylistDao(): PlaylistDao
 

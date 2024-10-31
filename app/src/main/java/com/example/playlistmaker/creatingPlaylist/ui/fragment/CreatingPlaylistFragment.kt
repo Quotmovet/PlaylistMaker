@@ -187,7 +187,7 @@ open class CreatingPlaylistFragment : Fragment() {
         )
     }
 
-    private fun setupBackButton(){
+    private fun setupBackButton() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isCreatePlaylistFragmentFilled) {
@@ -221,7 +221,7 @@ open class CreatingPlaylistFragment : Fragment() {
             .show()
     }
 
-    open fun savePlaylist (track: TrackDataClass) {
+    open fun savePlaylist(track: TrackDataClass) {
         viewModel.addNewPlaylist(track)
     }
 
