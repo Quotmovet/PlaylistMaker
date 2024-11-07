@@ -1,6 +1,5 @@
 package com.example.playlistmaker.creatingPlaylist.ui.fragment
 
-import Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -190,12 +189,9 @@ open class CreatingPlaylistFragment : Fragment() {
     private fun setupBackButton() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (isCreatePlaylistFragmentFilled) {
-                    showExitConfirmationDialog()
-                } else {
-                    isEnabled = false
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                }
+                isCreatePlaylistFragmentFilled = false
+                isEnabled = false
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
@@ -209,6 +205,7 @@ open class CreatingPlaylistFragment : Fragment() {
             .into(binding.trackTitle)
     }
 
+    /*
     private fun showExitConfirmationDialog() {
         Dialog(requireContext())
             .setTitle(getString(R.string.finish_creating_playlist))
@@ -220,6 +217,7 @@ open class CreatingPlaylistFragment : Fragment() {
             }
             .show()
     }
+     */
 
     open fun savePlaylist(track: TrackDataClass) {
         viewModel.addNewPlaylist(track)

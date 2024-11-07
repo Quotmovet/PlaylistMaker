@@ -424,6 +424,15 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="textInPlaylistPageBottomSheet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="buttonInPlaylistPageRegular">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>

@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -36,7 +38,7 @@ class PlaylistPageFragment : Fragment() {
 
     companion object {
         private const val EXTRA_PLAYLIST = "EXTRA_PLAYLIST"
-        private const val CLICK_DEBOUNCE_DELAY = 300L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
 
         fun createArgs(playlistId: Int): Bundle =
             bundleOf(EXTRA_PLAYLIST to playlistId)
@@ -50,7 +52,7 @@ class PlaylistPageFragment : Fragment() {
     private val tracks = arrayListOf<TrackDataClass>()
 
     private lateinit var menuBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
-    private lateinit var tracksBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var tracksBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var adapter: PlaylistPageAdapter
 
     private var isClickAllowed = true
@@ -137,16 +139,36 @@ class PlaylistPageFragment : Fragment() {
         val overlay = binding.overlay
         tracksBottomSheetBehavior = BottomSheetBehavior.from(tracksBottomSheetContainer)
 
+        val menuButton = binding.menuButton
+
+        // Устанавливаем минимальную высоту BottomSheet
+        tracksBottomSheetContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                tracksBottomSheetContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                val parent = tracksBottomSheetContainer.parent as View
+                val minHeight = parent.height - menuButton.bottom - resources.getDimensionPixelSize(R.dimen.s24)
+                tracksBottomSheetBehavior.peekHeight = minHeight
+                tracksBottomSheetBehavior.isFitToContents = false
+            }
+        })
+
         tracksBottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> overlay.visibility = View.GONE
-                    else -> overlay.visibility = View.VISIBLE
+                    BottomSheetBehavior.STATE_HIDDEN -> overlay.isVisible = false
+                    else -> overlay.isVisible = true
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 overlay.alpha = slideOffset
+
+                // Ограничиваем нижнее положение BottomSheet
+                val parent = bottomSheet.parent as View
+                val minTop = parent.height - tracksBottomSheetBehavior.peekHeight
+                if (bottomSheet.top > minTop) {
+                    bottomSheet.y = minTop.toFloat()
+                }
             }
         })
     }
@@ -162,8 +184,8 @@ class PlaylistPageFragment : Fragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 overlay.visibility = View.VISIBLE
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> overlay.visibility = View.GONE
-                    else -> overlay.visibility = View.VISIBLE
+                    BottomSheetBehavior.STATE_HIDDEN -> overlay.isVisible = false
+                    else -> overlay.isVisible = true
                 }
             }
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -218,7 +240,7 @@ class PlaylistPageFragment : Fragment() {
     private fun bindMainScreen(playlist: PlaylistDataClass) {
         Glide.with(this)
             .load(playlist.uriOfImage)
-            .placeholder(R.drawable.placeholder_of_track)
+            .placeholder(R.drawable.placeholder_big)
             .centerCrop()
             .into(binding.playlistTitle)
         binding.playlistName.text = playlist.playlistName
@@ -251,7 +273,7 @@ class PlaylistPageFragment : Fragment() {
         if (isClickAllowed) {
             isClickAllowed = false
             viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
                 isClickAllowed = true
             }
         }

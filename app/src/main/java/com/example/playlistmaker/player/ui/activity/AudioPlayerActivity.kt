@@ -126,8 +126,8 @@ class AudioPlayerActivity : AppCompatActivity() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
 
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> overlay.visibility = View.GONE
-                    else -> overlay.visibility = View.VISIBLE
+                    BottomSheetBehavior.STATE_HIDDEN -> overlay.isVisible = false
+                    else -> overlay.isVisible = true
                 }
             }
 
