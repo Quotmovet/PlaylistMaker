@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creatingPlaylist.domain.model.PlaylistDataClass
+import com.example.playlistmaker.util.other.StringsUtil
 
 class ListOfPlaylistAdapter(private val clickListener: SmallPlaylistClickListener)
     : RecyclerView.Adapter<ListOfPlaylistAdapter.ListOfPlaylistViewHolder>() {
@@ -48,13 +49,7 @@ class ListOfPlaylistAdapter(private val clickListener: SmallPlaylistClickListene
             playlistId = playlist.id
             playlistName.text = playlist.playlistName
 
-            val list = playlist.trackCount
-            val string = when(list % 10) {
-                1 -> " трек"
-                2, 3, 4 -> " трека"
-                else -> " треков"
-            }
-            trackCount.text = list.toString() + string
+            trackCount.text = StringsUtil.countTracks(playlist.trackCount)
         }
     }
 

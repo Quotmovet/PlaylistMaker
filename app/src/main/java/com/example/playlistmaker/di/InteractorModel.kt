@@ -8,6 +8,8 @@ import com.example.playlistmaker.media.domain.interactor.PlaylistInteractor
 import com.example.playlistmaker.media.domain.interactor.impl.PlaylistInteractorImpl
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.impl.AudioPlayerInteractorImpl
+import com.example.playlistmaker.playlist.domain.PlaylistPageInteractor
+import com.example.playlistmaker.playlist.domain.impl.PlaylistPageInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.SearchTrackHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTrackInteractor
 import com.example.playlistmaker.search.domain.interactor.impl.SearchTrackHistoryInteractorImpl
@@ -49,5 +51,9 @@ val interactorModule = module {
 
     single<PlaylistInteractor> {
         PlaylistInteractorImpl(get())
+    }
+
+    single<PlaylistPageInteractor> {
+        PlaylistPageInteractorImpl(get())
     }
 }

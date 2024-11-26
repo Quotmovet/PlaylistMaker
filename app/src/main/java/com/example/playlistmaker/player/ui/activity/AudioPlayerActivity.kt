@@ -126,12 +126,8 @@ class AudioPlayerActivity : AppCompatActivity() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
 
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        overlay.visibility = View.GONE
-                    }
-                    else -> {
-                        overlay.visibility = View.VISIBLE
-                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> overlay.isVisible = false
+                    else -> overlay.isVisible = true
                 }
             }
 
@@ -172,11 +168,11 @@ class AudioPlayerActivity : AppCompatActivity() {
                 }
                 is AddTrackStatus.AlreadyExists -> {
                     showMessage(getString(R.string.already_added) + " " + status.playlistName)
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
                 is AddTrackStatus.Error -> {
                     showMessage(getString(R.string.error_adding_track))
                 }
+                else -> {}
             }
         }
     }

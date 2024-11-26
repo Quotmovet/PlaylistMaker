@@ -25,12 +25,11 @@ import com.example.playlistmaker.creatingPlaylist.ui.viewModel.CreatingPlaylistV
 import com.example.playlistmaker.databinding.FragmentCreatingPlaylistBinding
 import com.example.playlistmaker.search.domain.model.TrackDataClass
 import com.example.playlistmaker.util.notification.Notification
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreatingPlaylistFragment : Fragment() {
+open class CreatingPlaylistFragment : Fragment() {
 
     companion object {
         var isCreatePlaylistFragmentFilled = false
@@ -48,9 +47,9 @@ class CreatingPlaylistFragment : Fragment() {
 
     private var stringOfPlaylistUri: String = ""
 
-    private val viewModel by viewModel<CreatingPlaylistViewModel>()
+    open val viewModel by viewModel<CreatingPlaylistViewModel>()
 
-    private lateinit var binding: FragmentCreatingPlaylistBinding
+    open lateinit var binding: FragmentCreatingPlaylistBinding
 
     private var track: TrackDataClass? = null
 
@@ -150,7 +149,7 @@ class CreatingPlaylistFragment : Fragment() {
         }
 
         binding.createButton.setOnClickListener {
-            track?.let { viewModel.addNewPlaylist(it) } ?: viewModel.addNewPlaylist()
+            track?.let { savePlaylist(it) } ?: viewModel.addNewPlaylist()
         }
     }
 
@@ -187,21 +186,18 @@ class CreatingPlaylistFragment : Fragment() {
         )
     }
 
-    private fun setupBackButton(){
+    private fun setupBackButton() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (isCreatePlaylistFragmentFilled) {
-                    showExitConfirmationDialog()
-                } else {
-                    isEnabled = false
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                }
+                isCreatePlaylistFragmentFilled = false
+                isEnabled = false
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    private fun showCover(uri: Uri) {
+    fun showCover(uri: Uri) {
         Glide.with(this)
             .load(uri)
             .placeholder(R.drawable.rectangle_corner)
@@ -209,16 +205,22 @@ class CreatingPlaylistFragment : Fragment() {
             .into(binding.trackTitle)
     }
 
+    /*
     private fun showExitConfirmationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        Dialog(requireContext())
             .setTitle(getString(R.string.finish_creating_playlist))
             .setMessage(getString(R.string.data_will_be_lost))
-            .setNeutralButton(getString(R.string.cancel)) { _, _ -> }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
             .setPositiveButton(getString(R.string.complete)) { _, _ ->
                 isCreatePlaylistFragmentFilled = false
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             .show()
+    }
+     */
+
+    open fun savePlaylist(track: TrackDataClass) {
+        viewModel.addNewPlaylist(track)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

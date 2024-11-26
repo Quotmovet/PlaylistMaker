@@ -28,7 +28,7 @@ class SearchTrackRepositoryImpl(
 
             200 -> {
                 with(response as SearchTrackResponse) {
-                    val favoritesTrackIds = appDatabase.trackDao().getFavoriteTracksIds()
+                    val favoritesTrackIds = appDatabase.getTrackDao().getFavoriteTracksIds()
                     val data = results.map { dto ->
                         val track = TrackMapper.mapTrackDataToDomain(dto)
                         track.isFavorite = track.trackId in favoritesTrackIds

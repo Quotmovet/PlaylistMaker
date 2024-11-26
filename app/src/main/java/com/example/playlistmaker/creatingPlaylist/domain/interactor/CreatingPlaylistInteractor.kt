@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CreatingPlaylistInteractor {
 
-    fun addNewPlaylist(playlist: PlaylistDataClass): Flow<Long>         // Возвращает id добавленного плейлиста
+    fun addNewPlaylist(playlist: PlaylistDataClass): Flow<Long>
 
     fun updatePlaylist(playlist: PlaylistDataClass): Flow<Int>
 

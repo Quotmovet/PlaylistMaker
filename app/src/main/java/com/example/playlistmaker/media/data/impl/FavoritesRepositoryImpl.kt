@@ -18,27 +18,27 @@ class FavoritesRepositoryImpl(
     // Добавляет трек в избранное
     override suspend fun insertTrack(track: TrackEntity) {
         withContext(Dispatchers.IO) {
-            appDatabase.trackDao().insertFavoritesTracks(listOf(track))
+            appDatabase.getTrackDao().insertFavoritesTracks(listOf(track))
         }
     }
 
     // Удаляет трек из избранного
     override suspend fun deleteTrack(track: TrackEntity) {
         withContext(Dispatchers.IO) {
-            appDatabase.trackDao().deleteFavoriteTrackById(track.trackId)
+            appDatabase.getTrackDao().deleteFavoriteTrackById(track.trackId)
         }
     }
 
     // Проверяет, добавлен ли трек в избранное
     override suspend fun isTrackFavorite(trackId: Int): Boolean {
         return withContext(Dispatchers.IO) {
-            appDatabase.trackDao().isTrackFavorite(trackId)
+            appDatabase.getTrackDao().isTrackFavorite(trackId)
         }
     }
 
     // Возвращает список избранных треков
     override fun getTracks(): Flow<List<TrackDataClass>> = flow {
-        val tracks = appDatabase.trackDao().getFavoritesTracks()
+        val tracks = appDatabase.getTrackDao().getFavoritesTracks()
         emit(convertFromTrackEntity(tracks))
     }
 

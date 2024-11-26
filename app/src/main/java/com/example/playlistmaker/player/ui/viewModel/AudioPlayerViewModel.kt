@@ -10,7 +10,7 @@ import com.example.playlistmaker.creatingPlaylist.domain.model.PlaylistDataClass
 import com.example.playlistmaker.player.domain.interactor.AudioPlayerInteractor
 import com.example.playlistmaker.player.ui.state.PlayerState
 import com.example.playlistmaker.search.domain.model.TrackDataClass
-import com.example.playlistmaker.util.TimeUtils
+import com.example.playlistmaker.util.other.TimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -161,7 +161,6 @@ class AudioPlayerViewModel(
                     }
 
                     playlist.tracksListId.add(track.trackId)
-                    playlist.trackCount++
 
                     withContext(Dispatchers.IO) {
                         creatingPlaylistInteractor.updatePlaylist(playlist).collect { result ->
