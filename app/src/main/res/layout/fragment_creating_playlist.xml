@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newPlaylistFragment"
+    style="@style/themeNavigationColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".creatingPlaylist.ui.fragment.CreatingPlaylistFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/leftBorder"
+                style="@style/guidline"
+                app:layout_constraintGuide_percent="0.06" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/rightBorder"
+                style="@style/guidline"
+                app:layout_constraintGuide_percent="0.94" />
+
+            <ImageButton
+                android:id="@+id/mainBackButton"
+                style="@style/backButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:id="@+id/newPlaylistTitleText"
+                style="@style/AppToolbarText"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_marginStart="24dp"
+                android:text="@string/new_playlist"
+                app:layout_constraintStart_toEndOf="@id/mainBackButton"
+                app:layout_constraintTop_toTopOf="@id/mainBackButton"
+                tools:ignore="TextSizeCheck" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/trackTitle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/rectangle_corner"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/rightBorder"
+                app:layout_constraintStart_toEndOf="@+id/leftBorder"
+                app:layout_constraintTop_toBottomOf="@id/mainBackButton"
+                app:shapeAppearanceOverlay="@style/imageView"
+                app:srcCompat="@drawable/add_picture"
+                tools:ignore="contentDescription,ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/trackName"
+                style="@style/fieldToFill"
+                android:layout_marginTop="32dp"
+                android:importantForAutofill="no"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintStart_toEndOf="@+id/leftBorder"
+                app:layout_constraintEnd_toStartOf="@+id/rightBorder"
+                app:layout_constraintTop_toBottomOf="@id/trackTitle"
+                android:inputType="textCapSentences"
+                android:hint="@string/name_of_playlist" />
+
+            <TextView
+                android:id="@+id/inscriptionName"
+                android:text="@string/name_of_playlist"
+                app:layout_constraintBottom_toTopOf="@+id/trackName"
+                app:layout_constraintStart_toStartOf="@+id/trackName"
+                app:layout_constraintTop_toTopOf="@+id/trackName"
+                style="@style/fieldToFillWhenInscription" />
+
+            <EditText
+                android:id="@+id/description"
+                style="@style/fieldToFill"
+                android:layout_marginTop="16dp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintStart_toEndOf="@+id/leftBorder"
+                app:layout_constraintEnd_toStartOf="@+id/rightBorder"
+                app:layout_constraintTop_toBottomOf="@id/trackName"
+                android:inputType="textCapSentences|textMultiLine"
+                android:importantForAutofill="no"
+                android:hint="@string/description"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <TextView
+                android:id="@+id/inscriptionDescription"
+                android:text="@string/description"
+                app:layout_constraintBottom_toTopOf="@+id/description"
+                app:layout_constraintStart_toStartOf="@+id/description"
+                app:layout_constraintTop_toTopOf="@+id/description"
+                style="@style/fieldToFillWhenInscription" />
+
+            <TextView
+                android:id="@+id/createButton"
+                style="@style/createButton"
+                android:layout_marginTop="170dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintStart_toEndOf="@+id/leftBorder"
+                app:layout_constraintEnd_toStartOf="@+id/rightBorder"
+                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ActivityLinearLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="12dp"
+        android:text="@string/settings"
+        style="@style/AppToolbarText"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switcher"
+        style="@style/SwitchStyle"
+        android:layout_marginTop="24dp"
+        android:text="@string/dark_theme"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/share"
+        style="@style/TextStyleOfActivitySettings"
+        android:drawableEnd="@drawable/share"
+        android:text="@string/share_app"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/group"
+        style="@style/TextStyleOfActivitySettings"
+        android:drawableEnd="@drawable/group"
+        android:text="@string/write_support"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/arrow"
+        style="@style/TextStyleOfActivitySettings"
+        android:drawableEnd="@drawable/arrow"
+        android:text="@string/terms_of_use"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

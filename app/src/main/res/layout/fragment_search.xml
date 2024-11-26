@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ActivityLinearLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="12dp"
+        android:text="@string/search"
+        style="@style/AppToolbarText"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        style="@style/SearchLayoutStyle"
+        tools:context=".search.ui.fragment.SearchActivity">
+
+        <EditText
+            android:id="@+id/input_search"
+            style="@style/SearchLine"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            tools:ignore="Autofill,LabelFor" />
+
+        <ImageButton
+            android:id="@+id/clear_button"
+            style="@style/ClearButton"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar android:id="@+id/search_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateTint="@color/yp_blue"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/s24"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/search_error_nothing_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="102dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                style="@style/search_error_nothing"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/nothingWasFound" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_error_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="102dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                style="@style/search_error_network"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/communicationProblems" />
+
+            <TextView
+                style="@style/search_error_text"
+                android:text="@string/uploadFailed"
+                android:layout_width="312dp"/>
+
+            <Button
+                style="@style/updateButton"
+                android:id="@+id/update_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/you_were_looking_for"
+                style="@style/search_error_text"
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/s24"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/you_were_looking_for"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/history_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/view_element_track"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/clear_history_button"
+                style="@style/updateButton"
+                android:text="@string/clear_history"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
