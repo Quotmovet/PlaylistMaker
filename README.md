@@ -5,11 +5,12 @@
 Возможности приложения:
 - поиск по названию трека
 - поиск по исполнителю
-- ознакомительного прослушивание
+- предварительное прослушивание (ввиду ограничений iTunes)
 - создания плейлистов из треков
-- хранение спасибо плейлистов в БД на устройстве
+- хранение плейлистов в БД на устройстве
 - добавления треков в список избранного
 - хранения списка избранных треков в БД на устройстве
+- наличие нескольких тем приложения
 
 Реализация:
 - шаблон проектирования MVVM
@@ -18,10 +19,10 @@
 - сетевые функции приложения реализованы с помощью Retrofit
 
 Инструменты разработки:
-Retrofit, Room, Glide, GSON, Koin, JetpackNavigation, JSON, Fragments, XML, BottomNavigation, ViewPager2
+Retrofit, Room, Glide, GSON, Koin, Coroutines, JetpackNavigation, JSON, Fragments, BottomNavigation, XML, Сonstraintlayout, ViewPager2
 
 Описание возможностей приложения:
-1. Экран поиска
+1. Поиск
 2. Окно поиска
 3. История поиска, при пустой истории выведется сообщение-заглушка
 4. Кнопка очистки истории поиска, при пустой истории не отображается
@@ -67,6 +68,12 @@ Retrofit, Room, Glide, GSON, Koin, JetpackNavigation, JSON, Fragments, XML, Bott
 4. Треки
    
 ![Group 182](https://github.com/user-attachments/assets/88bf3cd4-9cba-423f-ba99-313be8b7bd56)
+
+Экран настройки
+1. Изменение темы
+2. Социальное взаимодействие
+
+![Group 183](https://github.com/user-attachments/assets/fa65cd51-6f1a-40ec-8a55-6271e54bc321)
 
 
 
